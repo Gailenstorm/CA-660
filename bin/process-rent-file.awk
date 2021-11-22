@@ -1,6 +1,3 @@
-# "Statistic","HalfYear","Number of Bedrooms","Property Type","Location","UNIT","VALUE"
-# "RTB Average Monthly Rent Report","2008H1","All bedrooms","All property types","Carlow","Euro","759.62"
-#        2                           3           4               5                   6       7       8
 BEGIN {
     FS = "\"(,\")*"
     C = ","
@@ -15,7 +12,6 @@ $6 !~ /(,| (City|Town)$|[0-9])/ &&
 # We're only interested in specific bedroom categories.
 $4 ~ /^(All bedrooms|Four plus bed|One bed|Three bed|Two bed)$/ {
     year = substr($3, 0, 4)
-    half = int(substr($3, 6))
     switch ($4) {
         case "All bedrooms":
             bedrooms = "All"
@@ -45,7 +41,7 @@ $4 ~ /^(All bedrooms|Four plus bed|One bed|Three bed|Two bed)$/ {
     }
     county = $6
     value = $8
-    rent_data[property_type][bedrooms][county][year][half] = value
+    rent_data[property_type][bedrooms][county][year] = value
 }
 END {
     print Q \
@@ -53,8 +49,6 @@ END {
         D "Type" \
         D "Bedrooms" \
         D "Year" \
-        D "Year Half" \
-        \
         D "Rent" \
     Q
     i = 0
@@ -71,20 +65,17 @@ END {
     TYPES["Apartment"]
     for (county in rent_data["All"]["All"]) {
         for (year in rent_data["All"]["All"][county]) {
-            for (half in rent_data["All"]["All"][county][year]) {
-                for (bedrooms in BEDROOMS) {
-                    for (property_type in TYPES) {
-                        value = rent_data[property_type][bedrooms][county][year][half]
-                        rows[i++] = Q \
-                              county \
-                            D property_type \
-                            D bedrooms \
-                            D year \
-                            D half \
-                            \
-                            D value \
-                        Q
-                    }
+            for (bedrooms in BEDROOMS) {
+                for (property_type in TYPES) {
+                    value = rent_data[property_type][bedrooms][county][year]
+                    rows[i++] = Q \
+                          county \
+                        D property_type \
+                        D bedrooms \
+                        D year \
+                        \
+                        D value \
+                    Q
                 }
             }
         }

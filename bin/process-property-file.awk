@@ -48,27 +48,20 @@ END {
             for (stamp_duty_event in stamp_duty_events) {
                 for (buyer_type in buyer_types) {
                     for (year in mean_sale_price[eircode][stamp_duty_event][buyer_type]) {
-                        year_half_sums[0] = 0
-                        year_half_sums[1] = 0
-                        year_half_totals[0] = 0
-                        year_half_totals[1] = 0
+                        year_sum = 0
+                        year_total = 0
                         for (month in mean_sale_price[eircode][stamp_duty_event][buyer_type][year]) {
                             mean = mean_sale_price[eircode][stamp_duty_event][buyer_type][year][month]
                             volume = volume_of_sales[eircode][stamp_duty_event][buyer_type][year][month]
-                            year_half = int((month - 1) / 6)
-                            year_half_sums[year_half] += mean * volume
-                            year_half_totals[year_half] += volume
+                            year_sum += mean * volume
+                            year_total += volume
                         }
                         if (stamp_duty_event == "Executions") {
-                            county_execution_sums[county][buyer_type][year][0] += year_half_sums[0]
-                            county_execution_sums[county][buyer_type][year][1] += year_half_sums[1]
-                            county_execution_totals[county][buyer_type][year][0] += year_half_totals[0]
-                            county_execution_totals[county][buyer_type][year][1] += year_half_totals[1]
+                            county_execution_sums[county][buyer_type][year] += year_sum
+                            county_execution_totals[county][buyer_type][year] += year_total
                         } else if (stamp_duty_event == "Filings") {
-                            county_filing_sums[county][buyer_type][year][0] += year_half_sums[0]
-                            county_filing_sums[county][buyer_type][year][1] += year_half_sums[1]
-                            county_filing_totals[county][buyer_type][year][0] += year_half_totals[0]
-                            county_filing_totals[county][buyer_type][year][1] += year_half_totals[1]
+                            county_filing_sums[county][buyer_type][year] += year_sum
+                            county_filing_totals[county][buyer_type][year] += year_total
                         }
                     }
                 }
@@ -80,7 +73,6 @@ END {
               "County" \
             D "Buyer Type" \
             D "Year" \
-            D "Year Half" \
             D "Execution Volume" \
             D "Execution Mean Value" \
             D "Filing Volume" \
@@ -90,22 +82,19 @@ END {
     for (county in county_execution_sums) {
         for (buyer_type in county_execution_sums[county]) {
             for (year in county_execution_sums[county][buyer_type]) {
-                for (half in county_execution_sums[county][buyer_type][year]) {
-                    execution_volume = county_execution_totals[county][buyer_type][year][half]
-                    execution_mean = county_execution_sums[county][buyer_type][year][half] / execution_volume
-                    filing_volume = county_filing_totals[county][buyer_type][year][half]
-                    filing_mean = county_filing_sums[county][buyer_type][year][half] / filing_volume
-                    rows[i++] = Q \
-                          county \
-                        D buyer_type \
-                        D year \
-                        D (half + 1) \
-                        D execution_volume \
-                        D execution_mean \
-                        D filing_volume \
-                        D filing_mean \
-                    Q
-                }
+                execution_volume = county_execution_totals[county][buyer_type][year]
+                execution_mean = county_execution_sums[county][buyer_type][year] / execution_volume
+                filing_volume = county_filing_totals[county][buyer_type][year]
+                filing_mean = county_filing_sums[county][buyer_type][year] / filing_volume
+                rows[i++] = Q \
+                      county \
+                    D buyer_type \
+                    D year \
+                    D execution_volume \
+                    D execution_mean \
+                    D filing_volume \
+                    D filing_mean \
+                Q
             }
         }
     }
