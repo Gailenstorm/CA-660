@@ -2,6 +2,9 @@
 
 ## FYI
 
+Monday: Hey Sorën, I'm going to redo the graphs today to optimise for the two column
+spacing on the paper.
+
 I'm not sure if the Households.csv file is usable.  The CSO site doesn't really provide explanation.  Is that % figure indicating
 % of person's income spent on housing, or is it % of state spending, or something else?  Also, there's a lot of missing data.
 E.g. I don't trust that 1% for 2015 onwards.
