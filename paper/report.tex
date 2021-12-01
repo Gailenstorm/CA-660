@@ -8,7 +8,7 @@
 \usepackage[toc,page,title,titletoc]{appendix}
 \usepackage{tabularx}
 
-\title{Estimating missing housing and population data using CSO resources}
+\title{Estimating then profiling missing housing and population data from CSO}
 \author{
     Seán Healy, Soren Dreano\\
     \texttt{\{healys47,soren.dreano2\}@mail.dcu.ie}
@@ -22,13 +22,14 @@
 
 \maketitle
 \begin{abstract}
-This work attempts to model missing historical and projection data for
+This work models missing historical and projection data for Irish
 housing and population on the county level, using available
 property price, rent price and population data.  Analysis was
 carried out in order to determine statistical correlates.  Then linear
 regression was used for the purpose of determining missing historical property
 prices, missing population projections, and missing historical rent prices,
-all on the county level.
+all on the county level.  Finally, for visualisation purposes, profiles
+were produced using a clustering technique.
 \end{abstract}\\\\
 {\bf Keywords:} accommodation, housing, population, rent
 
@@ -41,15 +42,17 @@ Despite the broad array of datasets, it remains difficult to statistically
 compare variables, since the datasets tend to vary in geographic granularity,
 interval granularity, and overall timespan.
 
-In ascending order of size, the geographic granularities are {\bf eircode prefix},
-{\bf county}, {\bf region} and {\bf state}.  Online resources provide a mapping of
+In ascending order of size, the geographic granularities (or \underline{zone type}) are {\bf eircode prefix},
+{\bf sub-county} (e.g. Dublin 2 or Fingal), {\bf city}, {\bf county}, {\bf province}, {\bf region} and {\bf state}.  Online resources provide a mapping of
 these granularities to each other, e.g. eircodes are mapped within counties via crowdsourcing
 \cite{eircode19}, as listed in Appendix \ref{a:eircode}.  Counties are then mapped to geographic
 regions by the CSO itself \cite{cso_regions}.  The remaining {\bf state} level is an aggregate of variables
 across the entire Republic of Ireland.
 
 Alongside this array of geographic granularities, there are a number of interval granularities used by CSO
-datasets.  Some sets use {\bf monthly} datapoints, others use {\bf quarterly}, {\bf biannual} or {\bf yearly}.
+datasets.  Some sets use {\bf monthly} datapoints, others use {\bf quarterly}, {\bf biannual}, {\bf annual}
+or {\bf sparsely annual}.  Census data is generally sparsely annual, for example, since there are only
+censuses every few years.
 
 Granularity is not the only incompatibility across data sources from the CSO.
 The overall timespan for data sets vary greatly.  Population records are split
@@ -68,14 +71,78 @@ property prices can be compared across these few profiles rather than across
 the overly granular county-levels, or the overly geographic CSO regional
 level.
 
-The issues that this work attempts to address can be summarised under three headings:
-\begin{enumerate}
-    \item Aggregation
-    \item Estimating missing data
-    \item Profiling
-\end{enumerate}
+The issues that this work attempts to address can be summarised under three headings,
+which are explained across sections \ref{ss:aggregation} to
+\ref{ss:profiling}.
 
 \section{Methodology}
+\subsection{Aggregation and Interpolation\label{ss:aggregation}}
+Other than the regional and eircode mappings, which were compiled by hand from
+online sources \cite{eircode19, cso_regions}, all data were downloaded via the
+{\tt data.cso.ie} website, and preprocessed with BASH and AWK.  A listing of
+the CSO data source IDs, and what purpose they were used for in this work, may
+be found in Appendix \ref{a:sources}.
+
+As suggested in Section \ref{s:intro}, most data sources differed in granularity
+and timespan. \\
+
+\begin{tabularx}{0.5\textwidth}{r X X X X X}
+    \textit{Data source} & \textit{Interval} & \textit{Zone type} & \textit{Begins} & \textit{Ends} \\ \hline
+    E2004 & Sparsely annual & County, city & 2011 & 2014 \\ \hline
+    C0103 & Sparsely annual & Various & 2006 & 2006 \\ \hline
+    B0102 & Sparsely annual & Various & 1841 & 2002 \\ \hline
+    PEC08 & Sparsely annual & Various & 2011 & 2046 \\ \hline
+    RIH02 & Biannual & Various & 2006 & 2021 \\ \hline
+    HPM04 & Monthly & Eircode prefix & 2010 & 2021 \\ \hline
+    HPM09 & Monthly & Various & 2005 & 2021 \\ \hline
+    CIA02 & Annual & Region, county & 2000 & 2018 \\ \hline
+    BHA12 & Annual & Region, county & 1975 & 2020 \\ \hline
+    HSA09 & Annual & State & 1975 & 2016 \\ \hline
+    BBM02 & Monthly & State & 1975 & 2008 \\ \hline
+    PEA18 & Annual & State & 1987 & 2021
+\end{tabularx} \\
+
+When there were various zone types present in a data source (e.g. state, province
+and county), much of the data was filtered so that only one zone type remained,
+ideally county data.  To aggregate sum data, a simple sum of constituents was used.
+E.g. the total volume of house sales in a county is the same as the sum of volumes
+for that counties' constituent eircode prefixes.
+
+Mean data was aggregated using a weighted mean.  E.g. the mean property price in
+Louth is the volume-weighted mean of the house prices in eircode prefixes
+A91 and A92 (Laois' only eircode prefixes).  This ensures an eircode with very little
+sale volume does not have a disproportionate effect on the aggregated mean for the
+larger surrounding region.
+
+For pre-processing data into less granular intervals, a similar aggregating approach
+was used.  Turning monthly sum data into annual sum data involves summing all the months'
+data points.  In contrast, turning monthly mean data into annual mean data involves taking a weighted
+mean of the monthly data.  E.g. in (\ref{eq:weighted_mean}) the mean annual property
+$\mu_{\text{price}}(y)$ can be determined by iterating through each month $m$ in
+year $y$, summing the product of the month's mean price $\mu_{\text{price}}(m)$ and the month's total volume
+$v(m)$.  That entire sum is divided by the year's total volume $v(y)$, producing the
+year's mean property price.
+\begin{align}
+    \mu_{\text{price}}(y) = \frac{\sum^{m \in M(y)}\mu_{\text{price}}(m) \times v(m)}
+    {v(y)}\label{eq:weighted_mean}
+\end{align}
+
+Interpolation was used to change from higher to lower granularity.  Census data
+is only available every few years, so in this work, linear interpolation was
+used to estimate population on state, county and region levels between two
+years, e.g. between 2011 and 2016.  Unlike aggregation, which produces an
+exact, known value, interpolation introduces uncertainty, because the
+interpolated data points are only estimates.  It was noted early on in this
+work that Irish population tends to move slowly and smoothly, so we chose
+linear interpolation to find missing points between known points.
+
+Interpolation isn't to be confused with the techniques that will be discussed in
+Section \ref{ss:estimating}, where instead, two variables are considered, one known
+and another unknown.  Interpolation uses one variable, and can only estimate points between
+two known points, i.e. nothing before the first or after the last point.
+
+\subsection{Estimating Missing Data\label{ss:estimating}}
+\subsection{Profiling\label{ss:profiling}}
 \subsection{Data sources}
 Data from the Central Statistics Office and
 WHEREVERYOUFOUNDYOURPDFIDONTRECALLTHEWEBSITE were used
@@ -153,7 +220,7 @@ Appendixes, if needed, appear before the acknowledgment.
 \raggedright
 \bibliography{references}
 \begin{appendices}
-\section{Eircode Prefixes}\label{a:eircode}
+\section{Eircode Prefixes\label{a:eircode}}
 \begin{tabularx}{0.5\textwidth}{r X}
     \textit{County} & \textit{Eircode Prefix} \\ \hline
     Carlow & R21, R93 \\ \hline
@@ -183,7 +250,7 @@ Appendixes, if needed, appear before the acknowledgment.
     Wexford & Y21, Y25, Y34, Y35 \\ \hline
     Wicklow & A63, A67, A98, Y14
 \end{tabularx}
-\section{CSO Regions}\label{a:regions}
+\section{CSO Regions\label{a:regions}}
 \begin{tabularx}{0.5\textwidth}{r X}
     \textit{Region} & \textit{Counties} \\ \hline
     Border & Donegal, Sligo, Leitrim, Cavan, Monaghan\\ \hline
@@ -194,6 +261,20 @@ Appendixes, if needed, appear before the acknowledgment.
     South-East & Waterford, Kilkenny, Carlow, Wexford\\ \hline
     South-West & Cork, Kerry\\ \hline
     West & Galway, Mayo, Roscommon
+\end{tabularx}
+\section{CSO Data Sources\label{a:sources}}
+\begin{tabularx}{0.5\textwidth}{r X}
+    \textit{Region} & \textit{Counties} \\ \hline
+    Population & E2004, C0103, B0102 \\ \hline
+    Population projection & PEC08 \\ \hline
+    Rent & RIH02 \\ \hline
+    Property price & HPM04  \\ \hline
+    Estimated property price & HPM09 \\ \hline
+    Income data & CIA02 \\ \hline
+    Planning permission data & BHA12 \\ \hline
+    Construction cost data & HSA09 \\ \hline
+    Construction employment data & BBM02 \\ \hline
+    Migration data & PEA18
 \end{tabularx}
 \end{appendices}
 \end{document}

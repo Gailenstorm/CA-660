@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/Arch Linux) (preloaded format=xelatex 2021.11.25)  1 DEC 2021 17:50
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/Arch Linux) (preloaded format=xelatex 2021.11.25)  1 DEC 2021 19:35
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -270,41 +270,111 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 23.
 (/usr/share/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-Underfull \hbox (badness 10000) in paragraph at lines 25--34
+Underfull \hbox (badness 4391) in paragraph at lines 25--35
+\TU/lmr/m/n/10 missing population projections, and missing historical
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 25--35
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 80--82
-\TU/lmr/m/n/10 OUFOUNDYOURPDFIDONTRECALLTHEWEBSITE
+Underfull \hbox (badness 10000) in paragraph at lines 86--88
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 103--103
+[]|\TU/lmr/m/it/10 Zone
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 103--103
+[]|\TU/lmr/m/n/10 Sparsely
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 103--103
+[]|\TU/lmr/m/n/10 County,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 103--103
+[]|\TU/lmr/m/n/10 Sparsely
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 103--103
+[]|\TU/lmr/m/n/10 Sparsely
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 103--103
+[]|\TU/lmr/m/n/10 Sparsely
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 103--103
+[]|\TU/lmr/m/n/10 Eircode
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 103--103
+[]|\TU/lmr/m/n/10 Region,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 103--103
+[]|\TU/lmr/m/n/10 Region,
+ []
+
+
+Overfull \hbox (15.0pt too wide) in paragraph at lines 103--104
+[][] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 103--104
+
  []
 
 [1
 
 
-] (./report.bbl)
-Overfull \hbox (5.0pt too wide) in paragraph at lines 185--186
+]
+Underfull \hbox (badness 10000) in paragraph at lines 147--149
+\TU/lmr/m/n/10 OUFOUNDYOURPDFIDONTRECALLTHEWEBSITE
+ []
+
+[2] (./report.bbl)
+Overfull \hbox (5.0pt too wide) in paragraph at lines 252--253
 []  
  []
 
 
-Underfull \vbox (badness 1484) has occurred while \output is active []
+Overfull \hbox (5.0pt too wide) in paragraph at lines 264--265
+[]  
+ []
 
- [2]
-Overfull \hbox (5.0pt too wide) in paragraph at lines 197--199
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [3]
+Overfull \hbox (5.0pt too wide) in paragraph at lines 278--280
 [] 
  []
 
-[3
+[4
 
 ] (./report.aux) ) 
 Here is how much of TeX's memory you used:
- 3063 strings out of 476919
- 41511 string characters out of 5827673
- 364713 words of memory out of 5000000
- 23018 multiletter control sequences out of 15000+600000
- 409886 words of font info for 67 fonts, out of 8000000 for 9000
+ 3074 strings out of 476919
+ 41753 string characters out of 5827673
+ 365763 words of memory out of 5000000
+ 23025 multiletter control sequences out of 15000+600000
+ 409902 words of font info for 69 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  68i,12n,74p,702b,289s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on report.pdf (3 pages).
+Output written on report.pdf (4 pages).
