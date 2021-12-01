@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/Arch Linux) (preloaded format=xelatex 2021.11.25)  29 NOV 2021 15:30
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/Arch Linux) (preloaded format=xelatex 2021.11.25)  30 NOV 2021 16:04
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -269,35 +269,35 @@ Overfull \hbox (11.75749pt too wide) in paragraph at lines 29--33
 ) [2
 
 ]
-File: media/google_trend_property_price.png Graphic file (type bmp)
-<media/google_trend_property_price.png>
-File: media/property_price.png Graphic file (type bmp)
-<media/property_price.png>
-File: media/rent_price.png Graphic file (type bmp)
-<media/rent_price.png>
+File: ../media/google_trend_property_price.png Graphic file (type bmp)
+<../media/google_trend_property_price.png>
+File: ../media/property_price.png Graphic file (type bmp)
+<../media/property_price.png>
+File: ../media/rent_price.png Graphic file (type bmp)
+<../media/rent_price.png>
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-File: media/correlation_rent_acquisition.png Graphic file (type bmp)
-<media/correlation_rent_acquisition.png>
+File: ../media/correlation_rent_acquisition.png Graphic file (type bmp)
+<../media/correlation_rent_acquisition.png>
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-File: media/population_increase.png Graphic file (type bmp)
-<media/population_increase.png>
+File: ../media/population_increase.png Graphic file (type bmp)
+<../media/population_increase.png>
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-File: media/correlations_between_population_and_price.png Graphic file (type bm
-p)
-<media/correlations_between_population_and_price.png>
+File: ../media/correlations_between_population_and_price.png Graphic file (type
+ bmp)
+<../media/correlations_between_population_and_price.png>
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-File: media/correlations_between_population_and_price_by_county.png Graphic fil
-e (type bmp)
-<media/correlations_between_population_and_price_by_county.png>
+File: ../media/correlations_between_population_and_price_by_county.png Graphic 
+file (type bmp)
+<../media/correlations_between_population_and_price_by_county.png>
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
@@ -306,8 +306,8 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 ] [4] [5] [6] (./report.aux) ) 
 Here is how much of TeX's memory you used:
  3001 strings out of 476919
- 41763 string characters out of 5827673
- 357808 words of memory out of 5000000
+ 41871 string characters out of 5827673
+ 357803 words of memory out of 5000000
  22954 multiletter control sequences out of 15000+600000
  409878 words of font info for 66 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191

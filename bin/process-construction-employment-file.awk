@@ -31,7 +31,7 @@ END {
     }
     print Q \
         "Year" \
-        D "Year Index" \
+        D "Index" \
     Q
     asort(rows)
     for (row in rows) {

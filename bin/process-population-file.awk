@@ -21,7 +21,9 @@ FILENAME ~ /historical/ {
     next
 }
 # We only want county data.
-$6 ~ /South Dublin|Rathdown|Fingal|Ulster|Leinster|Munster|Connacht| City$/ {
+$6 ~ /South Dublin|North Dublin|Rathdown|Fingal|Ulster|Leinster|Munster|Connacht| City$/ \
+&& !(($YEAR == 2011 || $YEAR == 2016) && $6 ~ /^(Cork|Galway) City/) \
+{
     next
 }
 $6 ~ /(Limerick|Waterford|Galway|Cork) County$/ && FILENAME ~ /2006/ {
@@ -32,7 +34,9 @@ $6 ~ /(Limerick|Waterford|Galway|Cork) County$/ && FILENAME ~ /2006/ {
 }
 $2 == "Population" && NR != 1 {
     rurality = $5
-    county = gensub(" (City and )?County$", "", 1, $6)
+    county = $6
+    county = gensub(" (City and )?County$", "", 1, county)
+    county = gensub(" City$", "", 1, county)
     county = gensub("^(North|South) ", "", 1, county)
     population = $8
     population_data[county][$YEAR][$SEX][rurality] += population
@@ -55,8 +59,7 @@ END {
             total_women_in_town = population_data[county][year]["Female"]["Aggregate Town Area"]
             total_men_in_town = population_data[county][year]["Male"]["Aggregate Town Area"]
 
-            # We only want full county population data, not city population data.
-            if (total_women_in_rural || total_men_in_rural) {
+            if (total_women_in_rural || total_men_in_rural || total_women_in_town || total_women_in_town) {
                 if (county == "State") {
                     state_total_women_in_rural = total_women_in_rural
                     state_total_men_in_rural = total_men_in_rural
