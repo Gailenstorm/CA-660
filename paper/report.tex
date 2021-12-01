@@ -6,9 +6,9 @@
 \usepackage{textcomp}
 \usepackage[margin=0.5in,footskip=0.25in]{geometry}
 \usepackage[toc,page,title,titletoc]{appendix}
+\usepackage{tabularx}
 
-\title{Analysis and prediction of the Irish housing market}
-
+\title{Estimating missing housing and population data using CSO resources}
 \author{
     Seán Healy, Soren Dreano\\
     \texttt{\{healys47,soren.dreano2\}@mail.dcu.ie}
@@ -22,19 +22,58 @@
 
 \maketitle
 \begin{abstract}
-Analysis of the housing market in Ireland is presented, beginning with the
-evolution of both rent and purchase prices, and the multiple factors
-influencing fluctuations in the last 10 years. Possible explanations for
-changes will be presented, alongside with projections for future rental and
-property prices, if current trends continue.
+This work attempts to model missing historical and projection data for
+housing and population on the county level, using available
+property price, rent price and population data.  Analysis was
+carried out in order to determine statistical correlates.  Then linear
+regression was used for the purpose of determining missing historical property
+prices, missing population projections, and missing historical rent prices,
+all on the county level.
 \end{abstract}\\\\
 {\bf Keywords:} accommodation, housing, population, rent
 
 \section{Introduction\label{s:intro}}
+The CSO provide a very extensive collection of data sets at
+{\tt data.cso.ie}.  These data cover rent and property price, population
+records, estimates and projections.
 
-In the later part of the Celtic Tiger, a term referring to the economy of Ireland from the mid 1990s to the late 2000s, the Irish Property Bubble started to appear, which manifested itself as a constant and continuous rise in prices for almost a decade. In September 2008, the Irish government officially acknowledged the country's descent into recession\cite{kollewe08}, the collapse of the previously mentioned bubble being one of the major contributing factor to the global 2008 financial crisis. Unemployment rate rose from 6.5\% in July 2008 to 14.8\% 4 years later \cite{cso14} and house prices fell from 35\% between the end of 2007 and the end of 2010 \cite{environ10}.
+Despite the broad array of datasets, it remains difficult to statistically
+compare variables, since the datasets tend to vary in geographic granularity,
+interval granularity, and overall timespan.
 
-Concerns around property prices began to rise a few years later, in mid-2012, as seen is figure 1, the number of queries on the Google search engine for the term "Property price" started surging in this period and costs continue escalating in Ireland \cite{kennedy21}.
+In ascending order of size, the geographic granularities are {\bf eircode prefix},
+{\bf county}, {\bf region} and {\bf state}.  Online resources provide a mapping of
+these granularities to each other, e.g. eircodes are mapped within counties via crowdsourcing
+\cite{eircode19}, as listed in Appendix \ref{a:eircode}.  Counties are then mapped to geographic
+regions by the CSO itself \cite{cso_regions}.  The remaining {\bf state} level is an aggregate of variables
+across the entire Republic of Ireland.
+
+Alongside this array of geographic granularities, there are a number of interval granularities used by CSO
+datasets.  Some sets use {\bf monthly} datapoints, others use {\bf quarterly}, {\bf biannual} or {\bf yearly}.
+
+Granularity is not the only incompatibility across data sources from the CSO.
+The overall timespan for data sets vary greatly.  Population records are split
+across multiple data sets, some dating as far back as 1841.  By contrast,
+county population for 2006 is only released under a standalone dataset.  Some
+rent data is released between the years 2008 and 2021, whereas county-level
+property price records only begin in 2010.
+
+After aggregation is applied to datasets, rendering them compatible, linear
+regression can be used to estimate missing data when a strongly correlated
+variable is present.  Then a third issue arises: information overload.  Much of
+the counties near Donegal, for example, follow similar trends for rent.  This
+makes data difficult to visualise and reason about.  For this, ``rent
+profiles'' can be created via clustering.  Finally, rent, population and
+property prices can be compared across these few profiles rather than across
+the overly granular county-levels, or the overly geographic CSO regional
+level.
+
+The issues that this work attempts to address can be summarised under three headings:
+\begin{enumerate}
+    \item Aggregation
+    \item Estimating missing data
+    \item Profiling
+\end{enumerate}
 
 \section{Methodology}
 \subsection{Data sources}
@@ -96,6 +135,12 @@ The property prices decreased while the population continued to increase in all 
 \end{tabular}
 \end{center}
 
+\section{Discussion\label{s:discuss}}
+
+In the later part of the Celtic Tiger, a term referring to the economy of Ireland from the mid 1990s to the late 2000s, the Irish Property Bubble started to appear, which manifested itself as a constant and continuous rise in prices for almost a decade. In September 2008, the Irish government officially acknowledged the country's descent into recession\cite{kollewe08}, the collapse of the previously mentioned bubble being one of the major contributing factor to the global 2008 financial crisis. Unemployment rate rose from 6.5\% in July 2008 to 14.8\% 4 years later \cite{cso14} and house prices fell from 35\% between the end of 2007 and the end of 2010 \cite{environ10}.
+
+Concerns around property prices began to rise a few years later, in mid-2012, as seen is figure 1, the number of queries on the Google search engine for the term "Property price" started surging in this period and costs continue escalating in Ireland \cite{kennedy21}.
+
 \section{Conclusion}
 The current Tánaiste Leo Varadkar recently said "One of our biggest deficiencies, in housing supply in Ireland, is we're a country of three-bed homes by-and-large and we don't have enough one-bed homes" \cite{mcgrath21}. We could not find any publicly available data on the matter. Nonetheless, an analysis on the housing supply in Ireland either by size or the number of bedrooms, especially in dense urban areas such as Dublin, Cork or Galway might confirm this deficiency. Further research should focus on the types of housing that sell the most and that have been constructed recently.
 
@@ -107,54 +152,48 @@ Appendixes, if needed, appear before the acknowledgment.
 \bibliographystyle{IEEEtran}
 \raggedright
 \bibliography{references}
-\onecolumn
-\appendices
-\begin{figure}[h]
-	\centering
-    \includegraphics[width=0.47\textwidth]{../media/google_trend_property_price.png}
-	\caption{Google Trends is a useful tool to see the evolution of the interest of a certain query on the Google search engine}
-	\label{fig1}
-\end{figure}
-
-\begin{figure}[h]
-	\centering
-    \includegraphics[scale=0.5]{../media/property_price.png}
-	\caption{Average price for acquisition of property, by county, from 2010 to 2016}
-	\label{fig2}
-\end{figure}
-
-\begin{figure}[h]
-	\centering
-    \includegraphics[scale=0.5]{../media/rent_price.png}
-	\caption{Average price to rent a property, by county, from 2010 to 2016}
-	\label{fig3}
-\end{figure}
-
-\begin{figure}[h]
-	\centering
-    \includegraphics[scale=0.5]{../media/correlation_rent_acquisition.png}
-	\caption{Rental price and property price are tightly linked}
-	\label{fig4}
-\end{figure}
-
-\begin{figure}[h]
-	\centering
-    \includegraphics[scale=0.5]{../media/population_increase.png}
-	\caption{Slight increase in population in Ireland from 2010 to 2016}
-	\label{fig5}
-\end{figure}
-
-\begin{figure}[h]
-	\centering
-    \includegraphics[scale=0.5]{../media/correlations_between_population_and_price.png}
-	\caption{KDE of the correlations between population increase and price increase by county}
-	\label{fig6}
-\end{figure}
-
-\begin{figure}[h]
-	\centering
-    \includegraphics[scale=0.5]{../media/correlations_between_population_and_price_by_county.png}
-	\caption{Correlations between population increase and price increase by county}
-	\label{fig7}
-\end{figure}
+\begin{appendices}
+\section{Eircode Prefixes}\label{a:eircode}
+\begin{tabularx}{0.5\textwidth}{r X}
+    \textit{County} & \textit{Eircode Prefix} \\ \hline
+    Carlow & R21, R93 \\ \hline
+    Cavan & H12, H14, H16 \\ \hline
+    Clare & V14, V15, V95 \\ \hline
+    Cork & P12, P14, P17, P24, P25, P31, P32, P36, P43, P47, P51, P56, P61, P67, P72, P75, P81, P85, T12, T23, T34, T45, T56 \\ \hline
+    Donegal & F92, F93, F94 \\ \hline
+    Dublin & A41, A42, A45, A94, A96, D01, D02, D03, D04, D05, D06, D6W D07, D08, D09, D10, D11, D12, D13, D14, D15, D16, D17, D18, D20, D22, D24, K32, K34, K36, K45, K56, K67, K78 \\ \hline
+    Galway & H53, H54, H62, H65, H71, H91 \\ \hline
+    Kerry & V23, V31, V92, V93 \\ \hline
+    Kildare & R14, R51, R56, W12, W23, W34, W91 \\ \hline
+    Kilkenny & R95 \\ \hline
+    Laois & R32 \\ \hline
+    Leitrim & N41 \\ \hline
+    Limerick & V35, V42, V94 \\ \hline
+    Longford & N39 \\ \hline
+    Louth & A91, A92 \\ \hline
+    Mayo & F12, F23, F26, F28, F31, F35 \\ \hline
+    Meath & A82, A83, A84, A85, A86, C15 \\ \hline
+    Monaghan & A75, A81, H18, H23 \\ \hline
+    Offaly & R35, R42, R45 \\ \hline
+    Roscommon & F42, F45, F52 \\ \hline
+    Sligo & F56, F91 \\ \hline
+    Tipperary & E21, E25, E32, E34, E41, E45, E53, E91 \\ \hline
+    Waterford & X35, X42, X91 \\ \hline
+    Westmeath & N37, N91 \\ \hline
+    Wexford & Y21, Y25, Y34, Y35 \\ \hline
+    Wicklow & A63, A67, A98, Y14
+\end{tabularx}
+\section{CSO Regions}\label{a:regions}
+\begin{tabularx}{0.5\textwidth}{r X}
+    \textit{Region} & \textit{Counties} \\ \hline
+    Border & Donegal, Sligo, Leitrim, Cavan, Monaghan\\ \hline
+    Dublin & Dublin\\ \hline
+    Mid-East & Wicklow, Kildare, Meath, Louth\\ \hline
+    Midlands & Longford, Westmeath, Offaly, Laois\\ \hline
+    Mid-West & Clare, Tipperary, Limerick\\ \hline
+    South-East & Waterford, Kilkenny, Carlow, Wexford\\ \hline
+    South-West & Cork, Kerry\\ \hline
+    West & Galway, Mayo, Roscommon
+\end{tabularx}
+\end{appendices}
 \end{document}

@@ -21,15 +21,25 @@
 \providecommand{\BIBdecl}{\relax}
 \BIBdecl
 
+\bibitem{eircode19}
+Unknown, ``Croudsourced eircode map,'' 2019,
+  http://web.archive.org/web/20180109194505 /http://eircode.codes/.
+
+\bibitem{cso_regions}
+C.~S. Office, ``Regional population projections 2017 - 2036,'' 2016,
+  https://www.cso.ie/en/releasesandpublications/ep/
+  p-rpp/regionalpopulationprojections2017-2036/
+  appendix2conceptsanddefinitions/.
+
 \bibitem{kollewe08}
 J.~Kollewe, ``Ireland falls into recession,'' \emph{The Guardian}, 9 2008,
   https://www.theguardian.com/business/2008 /sep/25/recession.ireland.
 
 \bibitem{cso14}
 C.~S. Office, ``Seasonally adjusted standardised unemployment rates (sur),''
-  \emph{Central Statistics Office}, 2014,
-  https://www.cso.ie/en/statistics/labourmarket
-  /principalstatistics/seasonallyadjustedstandardisedunemploymentratessur/.
+  \emph{Central Statistics Office}, 2014, https://www.cso.ie/en/statistics/
+  labourmarket/principalstatistics/
+  seasonallyadjustedstandardisedunemploymentratessur/.
 
 \bibitem{environ10}
 H.~Environment and L.~Government, ``Quarterly house prices bulletin,''

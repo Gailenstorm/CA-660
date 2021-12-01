@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/Arch Linux) (preloaded format=xelatex 2021.11.25)  30 NOV 2021 16:04
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/Arch Linux) (preloaded format=xelatex 2021.11.25)  1 DEC 2021 17:50
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -166,18 +166,39 @@ Package: appendix 2020/02/08 v1.2c extra appendix facilities
 \c@@ppsavesec=\count269
 \c@@ppsaveapp=\count270
 )
+(/usr/share/texmf-dist/tex/latex/tools/tabularx.sty
+Package: tabularx 2020/01/15 v2.11c `tabularx' package (DPC)
+
+(/usr/share/texmf-dist/tex/latex/tools/array.sty
+Package: array 2020/10/01 v2.5c Tabular extension package (FMi)
+\col@sep=\dimen158
+\ar@mcellbox=\box49
+\extrarowheight=\dimen159
+\NC@list=\toks22
+\extratabsurround=\skip54
+\backup@length=\skip55
+\ar@cellbox=\box50
+)
+\TX@col@width=\dimen160
+\TX@old@table=\dimen161
+\TX@old@col=\dimen162
+\TX@target=\dimen163
+\TX@delta=\dimen164
+\TX@cols=\count271
+\TX@ftn=\toks23
+)
 (/usr/share/texmf-dist/tex/latex/l3backend/l3backend-xetex.def
 File: l3backend-xetex.def 2021-03-18 L3 backend support: XeTeX
 
 (|extractbb --version)
-\c__kernel_sys_dvipdfmx_version_int=\count271
-\l__color_backend_stack_int=\count272
-\g__color_backend_stack_int=\count273
-\g__graphics_track_int=\count274
-\l__pdf_internal_box=\box49
-\g__pdf_backend_object_int=\count275
-\g__pdf_backend_annotation_int=\count276
-\g__pdf_backend_link_int=\count277
+\c__kernel_sys_dvipdfmx_version_int=\count272
+\l__color_backend_stack_int=\count273
+\g__color_backend_stack_int=\count274
+\g__graphics_track_int=\count275
+\l__pdf_internal_box=\box51
+\g__pdf_backend_object_int=\count276
+\g__pdf_backend_annotation_int=\count277
+\g__pdf_backend_link_int=\count278
 ) (./report.aux)
 \openout1 = `report.aux'.
 
@@ -249,68 +270,41 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 23.
 (/usr/share/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-Underfull \hbox (badness 10000) in paragraph at lines 25--32
+Underfull \hbox (badness 10000) in paragraph at lines 25--34
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 41--43
+Underfull \hbox (badness 10000) in paragraph at lines 80--82
 \TU/lmr/m/n/10 OUFOUNDYOURPDFIDONTRECALLTHEWEBSITE
  []
 
 [1
 
 
-] (./report.bbl
-Overfull \hbox (11.75749pt too wide) in paragraph at lines 29--33
-\TU/lmr/m/n/10 tics/seasonallyadjustedstandardisedunemploymentratessur/.  
+] (./report.bbl)
+Overfull \hbox (5.0pt too wide) in paragraph at lines 185--186
+[]  
  []
 
-) [2
 
-]
-File: ../media/google_trend_property_price.png Graphic file (type bmp)
-<../media/google_trend_property_price.png>
-File: ../media/property_price.png Graphic file (type bmp)
-<../media/property_price.png>
-File: ../media/rent_price.png Graphic file (type bmp)
-<../media/rent_price.png>
+Underfull \vbox (badness 1484) has occurred while \output is active []
 
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-File: ../media/correlation_rent_acquisition.png Graphic file (type bmp)
-<../media/correlation_rent_acquisition.png>
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-File: ../media/population_increase.png Graphic file (type bmp)
-<../media/population_increase.png>
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-File: ../media/correlations_between_population_and_price.png Graphic file (type
- bmp)
-<../media/correlations_between_population_and_price.png>
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-File: ../media/correlations_between_population_and_price_by_county.png Graphic 
-file (type bmp)
-<../media/correlations_between_population_and_price_by_county.png>
-
-LaTeX Warning: `h' float specifier changed to `ht'.
+ [2]
+Overfull \hbox (5.0pt too wide) in paragraph at lines 197--199
+[] 
+ []
 
 [3
 
-] [4] [5] [6] (./report.aux) ) 
+] (./report.aux) ) 
 Here is how much of TeX's memory you used:
- 3001 strings out of 476919
- 41871 string characters out of 5827673
- 357803 words of memory out of 5000000
- 22954 multiletter control sequences out of 15000+600000
- 409878 words of font info for 66 fonts, out of 8000000 for 9000
+ 3063 strings out of 476919
+ 41511 string characters out of 5827673
+ 364713 words of memory out of 5000000
+ 23018 multiletter control sequences out of 15000+600000
+ 409886 words of font info for 67 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 68i,12n,74p,702b,304s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 68i,12n,74p,702b,289s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on report.pdf (6 pages).
+Output written on report.pdf (3 pages).
