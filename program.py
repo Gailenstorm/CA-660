@@ -22,7 +22,7 @@ def add_legend(data, groupby, sortby):
     plt.legend([handles[str(l)] for l in labels], labels)
 
 def save(plot, name):
-    path = f"media/{name}.svg"
+    path = f"paper/media/{name}.svg"
     print(path)
     if type(plot) == ggplot:
         plot.save(path)
@@ -403,12 +403,20 @@ for g, df in proportional_population_data.groupby('County'):
     data["Female Population"] = (
         data["Female Population"] * data["Regional Proportion Female"]
     )
-    data.pop("Regional Proportion")
     data.pop("Regional Proportion Male")
     data.pop("Regional Proportion Female")
     population_data = population_data.append(data)
-    #plt.plot(data["Year"], data["Total Population"], label=g)
-#save(plt, "proportional_population_by_county")
+fproportional_population_data = proportional_population_data.loc[
+    proportional_population_data.Region.isin(["Midlands"])
+].copy()
+fproportional_population_data["Regional Proportion (%)"] = fproportional_population_data["Regional Proportion"] * 100
+#proportional_population_data.Region.isin(["Dublin", "Border", "Midlands])
+g = ggplot(fproportional_population_data, aes(
+    x="Year",
+    y="Regional Proportion (%)",
+    colour="County",
+)) + geom_line()
+save(g, "midlands-population-proportion")
 fpopulation_data = population_data.loc[
     population_data.County.isin(["Carlow", "Kilkenny", "Clare", "Kerry", "Offaly", "Waterford", "Wexford", "Laois", "Westmeath", "Sligo"])
 ].copy()
@@ -418,7 +426,6 @@ g = ggplot(fpopulation_data, aes(
     colour="County",
     group="County",
 )) + geom_line() + theme_bw()
-#g.show()
 save(g, "population_by_county")
 
 

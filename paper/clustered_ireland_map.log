@@ -1,11 +1,11 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/Arch Linux) (preloaded format=xelatex 2021.11.25)  1 DEC 2021 19:48
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/Arch Linux) (preloaded format=xelatex 2021.11.25)  1 DEC 2021 21:26
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **clustered_ireland_map.log clustered_ireland_map.png clustered_ireland_map_wit
-hout_names.png clustered_ireland_map.xcf compile.log compile.sh references.bib 
-report.aux report.bbl report.blg report.log report.pdf report.tex watch.sh repo
-rt.tex
+hout_names.png clustered_ireland_map.xcf compile.log compile.sh media reference
+s.bib report.aux report.bbl report.blg report.log report.pdf report.tex watch.s
+h report.tex
 (./clustered_ireland_map.log
 LaTeX2e <2020-10-01> patch level 4
 L3 programming layer <2021-02-18>)
@@ -26,5 +26,5 @@ Here is how much of TeX's memory you used:
  20119 multiletter control sequences out of 15000+600000
  403430 words of font info for 27 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 12i,0n,15p,273b,14s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 12i,0n,15p,279b,14s stack positions out of 5000i,500n,10000p,200000b,80000s
 No pages of output.

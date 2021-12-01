@@ -7,6 +7,7 @@
 \usepackage[margin=0.5in,footskip=0.25in]{geometry}
 \usepackage[toc,page,title,titletoc]{appendix}
 \usepackage{tabularx}
+\usepackage{svg}
 
 \title{Estimating then profiling missing housing and population data from CSO}
 \author{
@@ -84,14 +85,16 @@ the CSO data source IDs, and what purpose they were used for in this work, may
 be found in Appendix \ref{a:sources}.
 
 As suggested in Section \ref{s:intro}, most data sources differed in granularity
-and timespan. \\
+and timespan.
 
+\begin{table}[h!]
+\centering
 \begin{tabularx}{0.5\textwidth}{r X X X X X}
-    \textit{Data source} & \textit{Interval} & \textit{Zone type} & \textit{Begins} & \textit{Ends} \\ \hline
-    E2004 & Sparsely annual & County, city & 2011 & 2014 \\ \hline
-    C0103 & Sparsely annual & Various & 2006 & 2006 \\ \hline
-    B0102 & Sparsely annual & Various & 1841 & 2002 \\ \hline
-    PEC08 & Sparsely annual & Various & 2011 & 2046 \\ \hline
+    \textit{Source} & \textit{Interval} & \textit{Zone type} & \textit{Begins} & \textit{Ends} \\ \hline
+    E2004 & Sparse & County, city & 2011 & 2014 \\ \hline
+    C0103 & Sparse & Various & 2006 & 2006 \\ \hline
+    B0102 & Sparse & Various & 1841 & 2002 \\ \hline
+    PEC08 & Sparse & Various & 2011 & 2046 \\ \hline
     RIH02 & Biannual & Various & 2006 & 2021 \\ \hline
     HPM04 & Monthly & Eircode prefix & 2010 & 2021 \\ \hline
     HPM09 & Monthly & Various & 2005 & 2021 \\ \hline
@@ -101,6 +104,9 @@ and timespan. \\
     BBM02 & Monthly & State & 1975 & 2008 \\ \hline
     PEA18 & Annual & State & 1987 & 2021
 \end{tabularx} \\
+\caption{Data sources considered or used in this work}
+\label{tab:sources}
+\end{table}
 
 When there were various zone types present in a data source (e.g. state, province
 and county), much of the data was filtered so that only one zone type remained,
@@ -149,7 +155,32 @@ estimating missing data points.  For this to work, however, a strong correlation
 be found between two or more variables.  Section \ref{ss:aggregation} laid the foundation
 for comparison of different variables; instead of several incompatible tables, this section assumes
 pre-processed tables, where the interval granularity is \underline{annual}, the zone type is
-\underline{county}, and no missing years exist in the data.
+mostly \underline{county}, and missing years have been interpolated into the data.
+
+Before speaking of regression, however, it should first be noted that
+estimating some missing data was rather straight forward.  For
+example, estimating county-level population projections could be achieved
+without regression.  CSO presently only provides population projections for the
+regions outlined in Appendix \ref{a:regions}.  However, it's possible to
+estimate the population projections for the counties that comprise these
+regions by splitting the regional projections in a weighted manner that reflects the
+proportion of that region each county comprises.  Dublin is it's own standalone CSO region,
+so no action was required in that case.  However, in the case of CSO's Midlands region,
+the population projections for the counties within that region could be
+estimated by splitting the regional estimate in a weighted manner.
+
+A naive approach to regional-to-county population projection
+would assume that the proportion a region's population that a particular county
+covers remains constant.  However, it is observed that counties can become more
+or less prominent portions of their regions as time goes on.  This is evident
+in Figure \ref{midlands}.  Laois used to be the most populous county in the Midlands,
+but now it's Westmeath, and Longford has become significantly less proportional over
+the past century.
+\begin{figure}
+    \centering
+    \includegraphics[width=0.55\textwidth]{media/pdf/midlands-population-proportion.svg.pdf}
+    \caption{County proportion of the Midlands population\label{midlands}}
+\end{figure}
 \subsection{Profiling\label{ss:profiling}}
 
 \subsection{Software used}
