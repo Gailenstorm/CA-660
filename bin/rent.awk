@@ -41,7 +41,8 @@ $4 ~ /^(All bedrooms|Four plus bed|One bed|Three bed|Two bed)$/ {
     }
     county = $6
     value = $8
-    rent_data[property_type][bedrooms][county][year] = value
+    rent_data[property_type][bedrooms][county][year] += value
+    total_data[property_type][bedrooms][county][year] += 1
 }
 END {
     print Q \
@@ -67,7 +68,9 @@ END {
         for (year in rent_data["All"]["All"][county]) {
             for (bedrooms in BEDROOMS) {
                 for (property_type in TYPES) {
-                    value = rent_data[property_type][bedrooms][county][year]
+                    sum = rent_data[property_type][bedrooms][county][year]
+                    total = total_data[property_type][bedrooms][county][year]
+                    value = sum / total
                     rows[i++] = Q \
                           county \
                         D property_type \

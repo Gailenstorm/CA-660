@@ -1,0 +1,33 @@
+#!/usr/bin/bash
+BIN_DIR="$(dirname "$0")"
+DATA_DIR=data
+RAW_DATA_DIR="$DATA_DIR/raw"
+PROCESSED_DATA_DIR="$DATA_DIR/processed"
+rm -rf "$PROCESSED_DATA_DIR/"*
+
+for raw_file in "$RAW_DATA_DIR/"*; do
+    name="${raw_file##*/}"
+    base="${name%.csv}"
+    awk_script="bin/$base.awk"
+    if [ -e "$awk_script" ]; then
+        processed_file="$PROCESSED_DATA_DIR/$name"
+        echo 'awk -f "'$awk_script'" "'$raw_file'" > "'$processed_file'"'
+        awk -f "$awk_script" "$raw_file" > "$processed_file"
+    fi
+done
+
+awk \
+    -f "$BIN_DIR/property_and_eircode.awk" \
+    "$RAW_DATA_DIR/eircodes.csv" \
+    "$RAW_DATA_DIR/property.csv" \
+    > "$PROCESSED_DATA_DIR/property.csv"
+PROCESSED_POPULATION_FILE="$PROCESSED_DATA_DIR/population.csv"
+awk \
+    -f "$BIN_DIR/all_population.awk" \
+    "$RAW_DATA_DIR/population.csv" \
+    "$RAW_DATA_DIR/2006_population.csv" \
+    "$RAW_DATA_DIR/historical_population.csv" \
+    > "$PROCESSED_POPULATION_FILE"
+awk -f "$BIN_DIR/interpolate_population.awk" "$PROCESSED_POPULATION_FILE" \
+    > "$PROCESSED_DATA_DIR/interpolated_population.csv"
+echo "Done."

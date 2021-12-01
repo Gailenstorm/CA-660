@@ -1,9 +1,11 @@
+print("Begin.")
 import pandas as pd
 import numpy as np
 import os
 import matplotlib.pyplot as plt
 from scipy.stats import spearmanr
 from ggplot import *
+import math
 
 TABLE_DIR = "data/processed"
 
@@ -254,6 +256,60 @@ proportional_population_by_group_data = group_by_county_group(
 
 # HPM04
 property_data = load("property")
+execution_volume = property_data["Execution Volume"]
+filing_volume = property_data["Filing Volume"]
+volume = execution_volume + filing_volume
+property_data["Volume"] = volume
+property_data["Mean Value"] = (
+    execution_volume * property_data["Execution Mean Value"]
+    + filing_volume * property_data["Filing Mean Value"]
+) / volume
+property_data = property_data.loc[property_data["Buyer Type"] == "All"].copy()
+# HPM09
+property_index_data = load("property_index")
+
+estimated_property_data = property_data.copy()
+estimated_property_data["Dublin"] = estimated_property_data["County"].apply(
+    lambda c: "Dublin" if c == "Dublin" else "not Dublin"
+)
+max_index = max(property_index_data.Index)
+indices = sorted(property_index_data.Index.unique())
+print(indices)
+estimated_property_data = pd.merge(
+    estimated_property_data,
+    property_index_data,
+    left_on=['Year', 'Dublin'],
+    right_on = ['Year', 'Dublin'],
+).sort_values("Index")
+min_projection_year = min(population_projection_data["Year"])
+index_value_mapping = pd.DataFrame.from_dict({
+    "Index": [],
+    "Estimated Value": [],
+    "County": [],
+})
+for g, df in estimated_property_data.groupby('County'):
+    dublin = df["Dublin"].iloc[0]
+    data = pd.DataFrame.from_dict({
+        "Index": indices,
+        "Estimated Value": np.poly1d(
+            np.polyfit(df.Index, df["Mean Value"], 1)
+        )(indices),
+        "County": [g] * len(indices),
+        "Dublin": [dublin] * len(indices),
+    })
+    index_value_mapping = index_value_mapping.append(data)
+    plt.plot(data['Index'], data['Estimated Value'], label=g)
+    plt.plot(df['Index'], df['Mean Value'])
+save(plt, "property_price_linear_regression")
+estimated_property_value_data = pd.merge(
+    index_value_mapping,
+    property_index_data,
+    left_on=['Index', 'Dublin'],
+    right_on = ['Index', 'Dublin'],
+)
+estimated_property_value_data.pop("Index")
+estimated_property_value_data.pop("Dublin")
+print(estimated_property_value_data)
 # CIA02
 income_data = load("income")
 income_data_by_group = group_by_county_group(income_data, 'mean')
@@ -391,23 +447,19 @@ g = ggplot(county_group_population, aes(
 )) + geom_line()
 save(g, "population_by_group")
     
-property_data = property_data.loc[property_data["Buyer Type"] == "All"].copy()
-execution_volume = property_data["Execution Volume"]
-filing_volume = property_data["Filing Volume"]
-volume = execution_volume + filing_volume
-property_data["Volume"] = volume
-property_data["Mean Value"] = (
-    execution_volume * property_data["Execution Mean Value"]
-    + filing_volume * property_data["Filing Mean Value"]
-) / volume
-
-print(property_data)
 g = ggplot(property_data, aes(
     x="Year",
     y="Mean Value",
     colour="County",
 )) + geom_line()
 save(g, "property_value_by_county")
+
+g = ggplot(estimated_property_value_data, aes(
+    x="Year",
+    y="Estimated Value",
+    colour="County",
+)) + geom_line()
+save(g, "estimated_property_value_by_county")
 
 g = ggplot(group_by_county_group(property_data, "mean"), aes(
     x="Year",
@@ -528,3 +580,4 @@ for county in population_data["County"].unique():
 save(pd.DataFrame(population_rent_correlation, index=[0]).plot.bar(), "population_rent_correlation")
 
 save(pd.Series(list(population_rent_correlation.values())).plot.kde(), "population_rent_correlation_kde")
+print("Done.")
