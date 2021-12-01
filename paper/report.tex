@@ -79,7 +79,7 @@ which are explained across sections \ref{ss:aggregation} to
 \subsection{Aggregation and Interpolation\label{ss:aggregation}}
 Other than the regional and eircode mappings, which were compiled by hand from
 online sources \cite{eircode19, cso_regions}, all data were downloaded via the
-{\tt data.cso.ie} website, and preprocessed with BASH and AWK.  A listing of
+{\tt data.cso.ie} website, and preprocessed to remove out-of-scope data.  A listing of
 the CSO data source IDs, and what purpose they were used for in this work, may
 be found in Appendix \ref{a:sources}.
 
@@ -127,14 +127,16 @@ year's mean property price.
     {v(y)}\label{eq:weighted_mean}
 \end{align}
 
-Interpolation was used to change from higher to lower granularity.  Census data
+Interpolation was used to convert from sparse to dense data.  Census data
 is only available every few years, so in this work, linear interpolation was
-used to estimate population on state, county and region levels between two
-years, e.g. between 2011 and 2016.  Unlike aggregation, which produces an
+used to estimate population on state, county and region levels between any two
+given years, e.g for the 4 missing years between the 2011 and 2016 censuses.
+Unlike aggregation, which produces an
 exact, known value, interpolation introduces uncertainty, because the
 interpolated data points are only estimates.  It was noted early on in this
 work that Irish population tends to move slowly and smoothly, so we chose
-linear interpolation to find missing points between known points.
+linear interpolation to find missing points between known points, and accepted
+the inaccuracy of the estimates as negligible.
 
 Interpolation isn't to be confused with the techniques that will be discussed in
 Section \ref{ss:estimating}, where instead, two variables are considered, one known
@@ -142,10 +144,13 @@ and another unknown.  Interpolation uses one variable, and can only estimate poi
 two known points, i.e. nothing before the first or after the last point.
 
 \subsection{Estimating Missing Data\label{ss:estimating}}
+As mentioned in Section \ref{s:intro}, linear regression was chosen as a candidate for
+estimating missing data points.  For this to work, however, a strong correlation must first
+be found between two or more variables.  Section \ref{ss:aggregation} laid the foundation
+for comparison of different variables; instead of several incompatible tables, this section assumes
+pre-processed tables, where the interval granularity is \underline{annual}, the zone type is
+\underline{county}, and no missing years exist in the data.
 \subsection{Profiling\label{ss:profiling}}
-\subsection{Data sources}
-Data from the Central Statistics Office and
-WHEREVERYOUFOUNDYOURPDFIDONTRECALLTHEWEBSITE were used
 
 \subsection{Software used}
 To facilitate collaboration, we used a GitHub repository [6] to host the datasets and the code. As we were both familiar with Python3 and it has a large amount of libraries dedicated for data analysis and exploration, it is the language we went with. In term of libraries, we mainly used Pandas in order to parse and select the data sources, MatPlotLib to create graphical representation and Numpy.

@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/Arch Linux) (preloaded format=xelatex 2021.11.25)  1 DEC 2021 19:35
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/Arch Linux) (preloaded format=xelatex 2021.11.25)  1 DEC 2021 19:48
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -343,17 +343,11 @@ Underfull \hbox (badness 10000) in paragraph at lines 103--104
 
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 147--149
-\TU/lmr/m/n/10 OUFOUNDYOURPDFIDONTRECALLTHEWEBSITE
- []
+Underfull \vbox (badness 2556) has occurred while \output is active []
 
-[2] (./report.bbl)
-Overfull \hbox (5.0pt too wide) in paragraph at lines 252--253
-[]  
- []
-
-
-Overfull \hbox (5.0pt too wide) in paragraph at lines 264--265
+ [2]
+(./report.bbl)
+Overfull \hbox (5.0pt too wide) in paragraph at lines 257--258
 []  
  []
 
@@ -361,13 +355,20 @@ Overfull \hbox (5.0pt too wide) in paragraph at lines 264--265
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [3]
-Overfull \hbox (5.0pt too wide) in paragraph at lines 278--280
+Overfull \hbox (5.0pt too wide) in paragraph at lines 269--270
+[]  
+ []
+
+
+Overfull \hbox (5.0pt too wide) in paragraph at lines 283--285
 [] 
  []
 
-[4
 
-] (./report.aux) ) 
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [4]
+(./report.aux) ) 
 Here is how much of TeX's memory you used:
  3074 strings out of 476919
  41753 string characters out of 5827673
