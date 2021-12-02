@@ -509,8 +509,8 @@ g = ggplot(county_group_population, aes(
     y="Total Population",
     group="Group",
     colour="Group",
-)) + geom_line()
-save(g, "population_by_group")
+)) + geom_line() + labs(x=" ")
+save(g, "population_by_group", h=6)
     
 g = ggplot(property_data, aes(
     x="Year",

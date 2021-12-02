@@ -10,6 +10,8 @@
 \usepackage{tabularx}
 \usepackage{svg}
 
+\date{November 31, 2021}
+
 \title{Estimating and profiling missing housing and population data for Ireland}
 \author{
     Seán Healy, Soren Dreano\\
@@ -30,10 +32,10 @@
 \begin{abstract}
 This work models missing historical and projection data for Irish
 housing and population on the county level, using available
-property price, rent price and population data.  Analysis was
+property price and population data.  Analysis was
 carried out in order to determine statistical correlates.  Then linear
 regression was used for the purpose of determining missing historical property
-prices, missing population projections, and missing historical rent prices,
+prices, missing population projections,
 all on the county level.  Finally, for visualisation purposes, county rent
 profiles were produced using a clustering technique.
 \end{abstract}\\\\
@@ -157,10 +159,11 @@ two known points, i.e. nothing before the first or after the last point.
 
 \subsection{Estimating missing data\label{ss:estimating}}
 As mentioned in Section \ref{s:intro}, linear regression was chosen as a candidate for
-estimating missing data points.  For this to work, however, a strong correlation must first
-be found between two or more variables.  Section \ref{ss:aggregation} laid the foundation
-for comparison of different variables; instead of several incompatible tables, this section assumes
-pre-processed tables, where the interval granularity is \underline{annual}, the zone type is
+estimating missing data points.  For this to work, however, a strong
+correlation must first be found between two or more variables.  Section
+\ref{ss:aggregation} laid the foundation for comparison of different variables;
+instead of several incompatible tables, this section assumes pre-processed
+tables, where the interval granularity is \underline{annual}, the zone type is
 mostly \underline{county}, and missing years have been interpolated into usable data points.
 
 County-level population projections were obtained by leveraging
@@ -323,81 +326,86 @@ going forward.
 These profiles were used to produce the historical property price plot in
 Figure \ref{full_pic}, which also includes estimated property prices
 resulting from the methods outlined in Section \ref{ss:estimating}.
+Similarly, Figure \ref{pop_full_pic} demonstrates how total populations are
+expected to rise in the various rent profile groups over the coming years.  The
+figure also includes historical population for comparison.  This figure
+was produced using the regression techniques from Section
+\ref{ss:estimating}, since CSO only provide regional population projections.
 
-\section{Discussion\label{s:discuss}}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.455\textwidth]{media/pdf/population_by_group.svg.pdf}
+    \caption{Rent profile population history and projections \label{pop_full_pic}}
+\end{figure}
 
-\subsection{Property price}
-Unsurprisingly, the mean price to buy a property decreased from 2010 to 2012
-after the Irish Property Bubble collapsed. The price surged drastically in most
-counties and most notably in Dublin, Kildare, Wicklow, Cork and Galway. This
-trend is shown clearly in figure 2. \begin{center}
-\begin{tabular}{||c c||}
- \hline
- County & Increase in property price (\%) \\ [0.5ex]
- \hline\hline
- Dublin & 36.53 \\
- \hline
- Kildare & 36.49 \\
- \hline
- Wicklow & 34.43 \\
- \hline
- Cork & 20.37 \\
- \hline
- Galway & 11.44 \\ [1ex]
- \hline
-\end{tabular}
-\end{center}
+\section{Discussion and Conclusion}
+The mean price to buy a property decreased from 2010 to 2012
+after the Irish Property Bubble collapsed. The price later rose in all
+county groups, as shown in Figure \ref{full_pic}.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.455\textwidth]{media/correlations_between_population_and_price_by_county.png}
+    \caption{Correlation of population and prices in counties\label{corr_pop}}
+\end{figure}
 
-\subsection{Rent price}
-As shown in figure 3, the same pattern applies for the average renting price. Figure 4 presents a tight correlation between the evolution of both property price and rent cost.
-
-\section{Factors}
-\subsection{Population}
-The increase in inhabitants might drive prices in the housing market up, as
-there will be more demand for the same number of accommodation. In order to
+Increase in inhabitants might drive prices in the housing market up, as
+there will be more demand for limited accommodation. In order to
 test this theory, we looked at correlations between the total population of a
-county and the mean property price, from 2010 to 2016, for each county. Figure
-6 is a kernel density estimation of the correlation and shows how much this
-correlation varies from county to county, with the mean being 0.309 and the
-standard deviation 0.369.
+county and the mean property price, from 2010 to 2016, for each county.  Group
+1 (low rent) actually has negative correlation between property price and
+population, as illustrated in the columns for Donegal, Leitrim, Roscommon,
+Sligo and Tipperary, meaning property prices decreased while the population
+continued to increase in all of the aforementioned counties.
 
-The Donegal, Leitrim, Roscommon, Sligo and Tipperary counties actually have a
-negative correlation between property price and population.
+In the later part of the Celtic Tiger, the Irish Property Bubble started
+to appear, which manifested itself as a constant and continuous rise in prices
+for almost a decade. In 2008, the Irish government acknowledged the country's
+descent into recession\cite{kollewe08}, the collapse
+of the previously mentioned bubble being one of the major contributing factor
+to the global 2008 financial crisis. Unemployment rate rose from 6.5\% in July
+2008 to 14.8\% 4 years later \cite{cso14} and house prices fell from 35\%
+between the end of 2007 and the end of 2010 \cite{environ10}.
 
-The property prices decreased while the population continued to increase in all of the aforementioned counties.
-
-\begin{center}
-\begin{tabular}{||c c c c||}
- \hline
- County & Pop. 2016 & Pop. 2010 & Evolution \\ [0.5ex]
- \hline\hline
- Donegal & 159192 & 157748 & 1444 \\
- \hline
- Leitrim & 32044 & 30934 & 1110 \\
- \hline
- Roscommon & 64544 & 62248 & 2296 \\
- \hline
- Sligo & 65535 & 64378 & 1157 \\
- \hline
- Tipperary & 159553 & 155268 & 4285 \\ [1ex]
- \hline
-\end{tabular}
-\end{center}
-
-In the later part of the Celtic Tiger, a term referring to the economy of Ireland from the mid 1990s to the late 2000s, the Irish Property Bubble started to appear, which manifested itself as a constant and continuous rise in prices for almost a decade. In September 2008, the Irish government officially acknowledged the country's descent into recession\cite{kollewe08}, the collapse of the previously mentioned bubble being one of the major contributing factor to the global 2008 financial crisis. Unemployment rate rose from 6.5\% in July 2008 to 14.8\% 4 years later \cite{cso14} and house prices fell from 35\% between the end of 2007 and the end of 2010 \cite{environ10}.
-
-Concerns around property prices began to rise a few years later, in mid-2012, as seen is figure 1, the number of queries on the Google search engine for the term "Property price" started surging in this period and costs continue escalating in Ireland \cite{kennedy21}.
-
-\section{Conclusion}
-The current Tánaiste Leo Varadkar recently said "One of our biggest deficiencies, in housing supply in Ireland, is we're a country of three-bed homes by-and-large and we don't have enough one-bed homes" \cite{mcgrath21}. We could not find any publicly available data on the matter. Nonetheless, an analysis on the housing supply in Ireland either by size or the number of bedrooms, especially in dense urban areas such as Dublin, Cork or Galway might confirm this deficiency. Further research should focus on the types of housing that sell the most and that have been constructed recently.
-
-%[5]Central Statistics Office, <https://data.cso.ie/>
-%[6]https://github.com/Gailenstorm/CA-660
+Current Tánaiste Leo Varadkar recently said ``One of our biggest
+deficiencies, in housing supply in Ireland, is we're a country of three-bed
+homes by-and-large and we don't have enough one-bed homes'' \cite{mcgrath21}. We
+could not find any publicly available data on the matter. Nonetheless, an
+analysis on the housing supply in Ireland either by size or the number of
+bedrooms, especially in dense urban areas such as Dublin, Cork or Galway might
+confirm this deficiency. Further research should focus on the types of housing
+that sell the most and that have been constructed recently.
 
 \bibliographystyle{IEEEtran}
 \raggedright
 \bibliography{references}
 \appendix
+\section{CSO Regions\label{a:regions}}
+\begin{tabularx}{0.5\textwidth}{r X}
+    \textit{Region} & \textit{Counties} \\ \hline
+    Border & Donegal, Sligo, Leitrim, Cavan, Monaghan\\ \hline
+    Dublin & Dublin\\ \hline
+    Mid-East & Wicklow, Kildare, Meath, Louth\\ \hline
+    Midlands & Longford, Westmeath, Offaly, Laois\\ \hline
+    Mid-West & Clare, Tipperary, Limerick\\ \hline
+    South-East & Waterford, Kilkenny, Carlow, Wexford\\ \hline
+    South-West & Cork, Kerry\\ \hline
+    West & Galway, Mayo, Roscommon
+\end{tabularx}
+\section{CSO Data Sources\label{a:sources}}
+\begin{tabularx}{0.5\textwidth}{r X}
+    \textit{Region} & \textit{Counties} \\ \hline
+    Population & E2004, C0103, B0102 \\ \hline
+    Population projection & PEC08 \\ \hline
+    Rent & RIH02 \\ \hline
+    Property price & HPM04  \\ \hline
+    Estimated property price & HPM09 \\ \hline
+    Income data & CIA02 \\ \hline
+    Planning permission data & BHA12 \\ \hline
+    Construction cost data & HSA09 \\ \hline
+    Construction employment data & BBM02 \\ \hline
+    Migration data & PEA18
+\end{tabularx}
+\newpage
 \section{Eircode Prefixes\label{a:eircode}}
 \begin{tabularx}{0.5\textwidth}{r X}
     \textit{County} & \textit{Eircode Prefix} \\ \hline
@@ -428,30 +436,22 @@ The current Tánaiste Leo Varadkar recently said "One of our biggest deficiencie
     Wexford & Y21, Y25, Y34, Y35 \\ \hline
     Wicklow & A63, A67, A98, Y14
 \end{tabularx}
-\section{CSO Regions\label{a:regions}}
-\begin{tabularx}{0.5\textwidth}{r X}
-    \textit{Region} & \textit{Counties} \\ \hline
-    Border & Donegal, Sligo, Leitrim, Cavan, Monaghan\\ \hline
-    Dublin & Dublin\\ \hline
-    Mid-East & Wicklow, Kildare, Meath, Louth\\ \hline
-    Midlands & Longford, Westmeath, Offaly, Laois\\ \hline
-    Mid-West & Clare, Tipperary, Limerick\\ \hline
-    South-East & Waterford, Kilkenny, Carlow, Wexford\\ \hline
-    South-West & Cork, Kerry\\ \hline
-    West & Galway, Mayo, Roscommon
-\end{tabularx}
-\section{CSO Data Sources\label{a:sources}}
-\begin{tabularx}{0.5\textwidth}{r X}
-    \textit{Region} & \textit{Counties} \\ \hline
-    Population & E2004, C0103, B0102 \\ \hline
-    Population projection & PEC08 \\ \hline
-    Rent & RIH02 \\ \hline
-    Property price & HPM04  \\ \hline
-    Estimated property price & HPM09 \\ \hline
-    Income data & CIA02 \\ \hline
-    Planning permission data & BHA12 \\ \hline
-    Construction cost data & HSA09 \\ \hline
-    Construction employment data & BBM02 \\ \hline
-    Migration data & PEA18
-\end{tabularx}
+\section{Property price rise since 2008}
+\begin{tabular}{||c c||}
+ \hline
+ County & Increase in property price (\%) \\ [0.5ex]
+ \hline\hline
+ Dublin & 36.53 \\
+ \hline
+ Kildare & 36.49 \\
+ \hline
+ Wicklow & 34.43 \\
+ \hline
+ Cork & 20.37 \\
+ \hline
+ Galway & 11.44 \\ [1ex]
+ \hline
+\end{tabular}
+\section{Code repository}
+https://github.com/Gailenstorm/CA-660
 \end{document}
