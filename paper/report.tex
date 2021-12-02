@@ -1,23 +1,28 @@
 \documentclass[twocolumn]{article}
 \usepackage{cite}
 \usepackage{amsmath,amssymb,amsfonts}
-\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
 \usepackage{graphicx}
 \usepackage{textcomp}
 \usepackage[margin=0.5in,footskip=0.25in]{geometry}
-\usepackage[toc,page,title,titletoc]{appendix}
+\usepackage[title]{appendix}
 \usepackage{tabularx}
 \usepackage{svg}
 
-\title{Estimating then profiling missing housing and population data from CSO}
+\title{Estimating and profiling missing housing and population data for Ireland}
 \author{
     Seán Healy, Soren Dreano\\
     \texttt{\{healys47,soren.dreano2\}@mail.dcu.ie}
     \footnote{This work was completed as part of the CA-660 module.}
 }
 
-\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
-    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\def\justifying{%
+  \rightskip=0pt
+  \spaceskip=0pt
+  \xspaceskip=0pt
+  \relax
+}
 
 \begin{document}
 
@@ -29,8 +34,8 @@ property price, rent price and population data.  Analysis was
 carried out in order to determine statistical correlates.  Then linear
 regression was used for the purpose of determining missing historical property
 prices, missing population projections, and missing historical rent prices,
-all on the county level.  Finally, for visualisation purposes, profiles
-were produced using a clustering technique.
+all on the county level.  Finally, for visualisation purposes, county rent
+profiles were produced using a clustering technique.
 \end{abstract}\\\\
 {\bf Keywords:} accommodation, housing, population, rent
 
@@ -77,7 +82,7 @@ which are explained across sections \ref{ss:aggregation} to
 \ref{ss:profiling}.
 
 \section{Methodology}
-\subsection{Aggregation and Interpolation\label{ss:aggregation}}
+\subsection{Aggregation and interpolation\label{ss:aggregation}}
 Other than the regional and eircode mappings, which were compiled by hand from
 online sources \cite{eircode19, cso_regions}, all data were downloaded via the
 {\tt data.cso.ie} website, and preprocessed to remove out-of-scope data.  A listing of
@@ -128,6 +133,7 @@ $\mu_{\text{price}}(y)$ can be determined by iterating through each month $m$ in
 year $y$, summing the product of the month's mean price $\mu_{\text{price}}(m)$ and the month's total volume
 $v(m)$.  That entire sum is divided by the year's total volume $v(y)$, producing the
 year's mean property price.
+
 \begin{align}
     \mu_{\text{price}}(y) = \frac{\sum^{m \in M(y)}\mu_{\text{price}}(m) \times v(m)}
     {v(y)}\label{eq:weighted_mean}
@@ -149,47 +155,182 @@ Section \ref{ss:estimating}, where instead, two variables are considered, one kn
 and another unknown.  Interpolation uses one variable, and can only estimate points between
 two known points, i.e. nothing before the first or after the last point.
 
-\subsection{Estimating Missing Data\label{ss:estimating}}
+\subsection{Estimating missing data\label{ss:estimating}}
 As mentioned in Section \ref{s:intro}, linear regression was chosen as a candidate for
 estimating missing data points.  For this to work, however, a strong correlation must first
 be found between two or more variables.  Section \ref{ss:aggregation} laid the foundation
 for comparison of different variables; instead of several incompatible tables, this section assumes
 pre-processed tables, where the interval granularity is \underline{annual}, the zone type is
-mostly \underline{county}, and missing years have been interpolated into the data.
+mostly \underline{county}, and missing years have been interpolated into usable data points.
 
-Before speaking of regression, however, it should first be noted that
-estimating some missing data was rather straight forward.  For
-example, estimating county-level population projections could be achieved
-without regression.  CSO presently only provides population projections for the
+County-level population projections were obtained by leveraging
+regression to estimate county-regional population proportions as a function of
+time, then combining the resulting estimates with CSO-published regional population
+projections.
+
+CSO presently only offers population projections for the broad
 regions outlined in Appendix \ref{a:regions}.  However, it's possible to
 estimate the population projections for the counties that comprise these
-regions by splitting the regional projections in a weighted manner that reflects the
-proportion of that region each county comprises.  Dublin is it's own standalone CSO region,
-so no action was required in that case.  However, in the case of CSO's Midlands region,
-the population projections for the counties within that region could be
-estimated by splitting the regional estimate in a weighted manner.
+regions by splitting each region's projection in an uneven manner that
+reflects the population proportions counties hold in each region.  Dublin is its
+own standalone CSO region, so no action was required in that case.  However, in
+the case of CSO's Midlands region, for example, the population projections for the counties
+within that region could be estimated by splitting the regional estimate.
 
-A naive approach to regional-to-county population projection
-would assume that the proportion a region's population that a particular county
-covers remains constant.  However, it is observed that counties can become more
-or less prominent portions of their regions as time goes on.  This is evident
-in Figure \ref{midlands}.  Laois used to be the most populous county in the Midlands,
-but now it's Westmeath, and Longford has become significantly less proportional over
-the past century.
+A naive approach to regional-to-county population projection conversion would
+assume that the proportion of a region's population that a particular county
+covers remains constant; if a region with only two counties, $A$ and $B$, has a
+population ratio of $1:2$ between those two counties in 2021, the naive
+assumption would be that those counties would display the same ratio in 2036.
+However, it is observed that counties can become more or less prominent
+portions of their regions as time goes on.  This is evident in Figure
+\ref{midlands}.  Laois used to be the most populous county in the Midlands, but
+now Westmeath is, and Longford has become significantly less proportional in
+that region over the past century.
+
 \begin{figure}
     \centering
     \includegraphics[width=0.55\textwidth]{media/pdf/midlands-population-proportion.svg.pdf}
-    \caption{County proportion of the Midlands population\label{midlands}}
+    \caption{Distribution of population in the Midlands region\label{midlands}}
 \end{figure}
+
+Using data from Figure \ref{midlands}, lines are fitted over the county plots in
+order to predict what regional proportion a county will comprise further
+into the future (e.g. in 2036).  These lines are also normalised at each time
+interval (each year), so that the county proportions for each region sum to 1.0
+at each interval.
+
+When these predicted proportions are multiplied by the
+regional predictions, estimates for county populations are obtained.  Figure
+\ref{regression1} illustrates the efficacy of this model.  The figure uses the
+model to
+produce estimations of pre-2017 population, which can then be compared against
+the known or interpolated populations for those counties at given years.
+
+\begin{align}
+    & p(y, c) = p(y, r(c)) \times \frac{p(y, c)}{p(y, r(c))}
+    \label{eq:pop_model_deriv} \\
+    & \hat{p}(y, c) = p(y, r(c)) \times \hat{q}(y, c)
+    \label{eq:pop_model}
+\end{align}
+
+The formula representing this regression technique is derived from
+(\ref{eq:pop_model_deriv}).  Here, $p(y, c)$ means {\it the population of}
+county $c$ in year $y$.  $r(c)$ returns the broader region of county $c$;
+e.g. $r(\text{`Donegal'}) = \text{`Border'}$.  The observation (\ref{eq:pop_model_deriv}) has one particular part, $\frac{p(y, c)}{p(y, r(c))}$, for which
+an estimate $\hat{q}(y, c)$ has previously been suggested.  $\hat{q}(y, c)$ is defined as the
+predicted proportion of the outer region a county $c$ fills during year $y$.
+E.g. 
+$\hat{q}(2017, \text{`Westmeath'}) \approx 30\%$, and 
+$\hat{q}(2036, \text{`Westmeath'}) \approx 33\%$.  This can be described
+in terms of {\it Westmeath becoming increasingly populous within the context
+of its Midlands region}.
+Finally, (\ref{eq:pop_model_deriv}) leads to a model (\ref{eq:pop_model})
+for estimating county population when only regional population predictions
+and historical county population records exist.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.48\textwidth]{media/pdf/population_by_county_linear_regression.svg.pdf}
+    \caption{Regression county population estimation\label{regression1}}
+\end{figure}
+
+Regression was also used to estimate missing
+historical data for house prices.  CSO publishes property price data in two
+ways: firstly a historical price `index', and secondly, exact sale volumes and
+mean prices.  The problem is the former data source is broader in time range
+the latter.  Mean price data is missing before 2010, whereas the index data
+goes as far back as 2005.  From a research perspective, it would be useful to
+obtain estimated house price data that spans before the 2008 recession.
+
+After verifying that the index does indeed correlate with the
+price data during overlapping years, linear regression was used to extend
+estimated mean property price data back to 2006.  One linear regression pass
+per county was used, as illustrated in Figure (\ref{per_county}).
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.50\textwidth]{media/pdf/property_price_linear_regression.svg.pdf}
+    \caption{Estimating mean property price using linear regression over CSO price indices\label{per_county}}
+\end{figure}
+
 \subsection{Profiling\label{ss:profiling}}
 
-\subsection{Software used}
-To facilitate collaboration, we used a GitHub repository [6] to host the datasets and the code. As we were both familiar with Python3 and it has a large amount of libraries dedicated for data analysis and exploration, it is the language we went with. In term of libraries, we mainly used Pandas in order to parse and select the data sources, MatPlotLib to create graphical representation and Numpy.
+After using linear regression to estimate missing data (both in the past
+and future), a problem of information overload became more apparent.
+Some counties correlated so closely in terms of rent prices that any study
+of rent in Ireland would benefit from forming {\it profiles} or {\it county
+groups}.  A form of hierarchical clustering was used to group counties
+into 5 profiles based on historical rent prices.  The heuristic used was
+{\it lowest difference between rent as a function of time}, $\Delta(g_1, g_2)$.
+This approach is outlined in Algorithm \ref{cluster},  which takes a set of
+counties $C$ as input, along with a desired number of rent profiles, $k$.  The
+counties are first converted to singleton profiles $\{c\} \in K$.  At
+initialisation $|K| = |C|$, but each round, a profile $g_1$ is merged with
+another, $g_2$, according to minimum difference
+($argmin_{\{g_1, g_2\} \subset K}\Delta(g_1, f_2)$), reducing the cardinality
+of $|K|$ by one.  This repeats until we are left with the desired $k$ rent
+profiles.
+
+\begin{algorithm}
+\caption{Clustering counties by rent similarity\label{cluster}}
+\begin{algorithmic}[1]
+    \State Input: $C$, $k$
+    \State $K \leftarrow \{\{c\} \mid c \in C\}$
+    \While{$|K| > k$}
+    \State \{$g_1, g_2\} \leftarrow argmin_{\{g_1, g_2\} \subset K}\Delta(g_1, g_2)$
+    \State $K \leftarrow (K - \{g_1, g_2\}) \cup \{g_1 \cup g_2\}$
+    \EndWhile
+\end{algorithmic}
+\end{algorithm}
 
 \section{Results}
-%\section{Evolution of the price in the housing market by county}
+
+As illustrated in Figure \ref{rent_groups}, the resulting rent profiles from
+Algorithm \ref{cluster} depart from the standard geographic regions used by the
+CSO.  These profiles (outlined in Table \ref{rent_group_tab}).  may provide a
+better lens for comparison of rent progression and property price progression
+going forward.
+
+\begin{table}[h!]
+\centering
+\raggedright
+\begin{tabularx}{0.5\textwidth}{r l l}
+    \textit{Group} & \textit{Rent} & \textit{Counties} \\ \hline
+    1 & Low & Cavan, Roscommon, Donegal,\\&&Longford, Leitrim, Mayo, Tipperary \\ \hline
+    2 & Medium-low & Carlow, Kilkenny, Clare, Kerry,\\&&Wexford, Waterford, Offaly, Sligo,\\&&Laois, Westmeath \\ \hline
+    3 & Medium & Cork, Galway, Meath, Limerick,\\&&Louth \\ \hline
+    4 & Medium-high & Kildare, Wicklow \\ \hline
+    5 & High & Dublin
+\end{tabularx} \\
+\justifying
+\caption{Rent groups\label{rent_group_tab}}
+\label{tab:sources}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.25\textwidth]{media/clustered_ireland_map.png}
+    \caption{Rent profiles\label{rent_groups}}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.505\textwidth]{media/pdf/estimated_property_value_by_county_group.svg.pdf}
+    \caption{A fuller picture of property prices in Ireland \label{full_pic}}
+\end{figure}
+
+These profiles were used to produce the historical property price plot in
+Figure \ref{full_pic}, which also includes estimated property prices
+resulting from the methods outlined in Section \ref{ss:estimating}.
+
+\section{Discussion\label{s:discuss}}
+
 \subsection{Property price}
-Unsurprisingly, the mean price to buy a property decreased from 2010 to 2012 after the Irish Property Bubble collapsed. The price surged drastically in most counties and most notably in Dublin, Kildare, Wicklow, Cork and Galway. This trend is shown clearly in figure 2. \begin{center}
+Unsurprisingly, the mean price to buy a property decreased from 2010 to 2012
+after the Irish Property Bubble collapsed. The price surged drastically in most
+counties and most notably in Dublin, Kildare, Wicklow, Cork and Galway. This
+trend is shown clearly in figure 2. \begin{center}
 \begin{tabular}{||c c||}
  \hline
  County & Increase in property price (\%) \\ [0.5ex]
@@ -212,11 +353,16 @@ As shown in figure 3, the same pattern applies for the average renting price. Fi
 
 \section{Factors}
 \subsection{Population}
-As shown in figure 5, population in Ireland is fairly stable. Indeed, from 2012 to 2016, population in Ireland increased slightly by 3.05\% while the mean property price increased by 15.83\%.
+The increase in inhabitants might drive prices in the housing market up, as
+there will be more demand for the same number of accommodation. In order to
+test this theory, we looked at correlations between the total population of a
+county and the mean property price, from 2010 to 2016, for each county. Figure
+6 is a kernel density estimation of the correlation and shows how much this
+correlation varies from county to county, with the mean being 0.309 and the
+standard deviation 0.369.
 
-The increase in inhabitants might drive prices in the housing market up, as there will be more demand for the same number of accommodation. In order to test this theory, we looked at correlations between the total population of a county and the mean property price, from 2010 to 2016, for each county. Figure 6 is a kernel density estimation of the correlation and shows how much this correlation varies from county to county, with the mean being 0.309 and the standard deviation 0.369.
-
-The Donegal, Leitrim, Roscommon, Sligo and Tipperary counties actually have a negative correlation between the evolution of property price and the evolution of the population. Figure 7 shows how these counties are outliers in the general trend.
+The Donegal, Leitrim, Roscommon, Sligo and Tipperary counties actually have a
+negative correlation between property price and population.
 
 The property prices decreased while the population continued to increase in all of the aforementioned counties.
 
@@ -238,8 +384,6 @@ The property prices decreased while the population continued to increase in all 
 \end{tabular}
 \end{center}
 
-\section{Discussion\label{s:discuss}}
-
 In the later part of the Celtic Tiger, a term referring to the economy of Ireland from the mid 1990s to the late 2000s, the Irish Property Bubble started to appear, which manifested itself as a constant and continuous rise in prices for almost a decade. In September 2008, the Irish government officially acknowledged the country's descent into recession\cite{kollewe08}, the collapse of the previously mentioned bubble being one of the major contributing factor to the global 2008 financial crisis. Unemployment rate rose from 6.5\% in July 2008 to 14.8\% 4 years later \cite{cso14} and house prices fell from 35\% between the end of 2007 and the end of 2010 \cite{environ10}.
 
 Concerns around property prices began to rise a few years later, in mid-2012, as seen is figure 1, the number of queries on the Google search engine for the term "Property price" started surging in this period and costs continue escalating in Ireland \cite{kennedy21}.
@@ -247,15 +391,13 @@ Concerns around property prices began to rise a few years later, in mid-2012, as
 \section{Conclusion}
 The current Tánaiste Leo Varadkar recently said "One of our biggest deficiencies, in housing supply in Ireland, is we're a country of three-bed homes by-and-large and we don't have enough one-bed homes" \cite{mcgrath21}. We could not find any publicly available data on the matter. Nonetheless, an analysis on the housing supply in Ireland either by size or the number of bedrooms, especially in dense urban areas such as Dublin, Cork or Galway might confirm this deficiency. Further research should focus on the types of housing that sell the most and that have been constructed recently.
 
-Appendixes, if needed, appear before the acknowledgment.
-
 %[5]Central Statistics Office, <https://data.cso.ie/>
 %[6]https://github.com/Gailenstorm/CA-660
 
 \bibliographystyle{IEEEtran}
 \raggedright
 \bibliography{references}
-\begin{appendices}
+\appendix
 \section{Eircode Prefixes\label{a:eircode}}
 \begin{tabularx}{0.5\textwidth}{r X}
     \textit{County} & \textit{Eircode Prefix} \\ \hline
@@ -312,5 +454,4 @@ Appendixes, if needed, appear before the acknowledgment.
     Construction employment data & BBM02 \\ \hline
     Migration data & PEA18
 \end{tabularx}
-\end{appendices}
 \end{document}

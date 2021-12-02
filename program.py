@@ -9,8 +9,6 @@ import math
 
 TABLE_DIR = "data/processed"
 
-#plt.rcParams["figure.figsize"] = (18, 20)
-
 def filter_by_county(data, county, negate=False):
     return data.loc[(data["County"] == county) != negate]
 
@@ -21,11 +19,12 @@ def add_legend(data, groupby, sortby):
     labels = list(reversed(data.sort_values(by=sortby)[groupby].tolist()))
     plt.legend([handles[str(l)] for l in labels], labels)
 
-def save(plot, name):
+def save(plot, name, w=11, h=8):
+    plt.rcParams["figure.figsize"] = (w, h)
     path = f"paper/media/{name}.svg"
     print(path)
     if type(plot) == ggplot:
-        plot.save(path)
+        plot.save(path, width=w, height=h)
         plt.clf()
     else:
         try:
@@ -274,7 +273,6 @@ estimated_property_data["Dublin"] = estimated_property_data["County"].apply(
 )
 max_index = max(property_index_data.Index)
 indices = sorted(property_index_data.Index.unique())
-print(indices)
 estimated_property_data = pd.merge(
     estimated_property_data,
     property_index_data,
@@ -287,6 +285,13 @@ index_value_mapping = pd.DataFrame.from_dict({
     "Estimated Value": [],
     "County": [],
 })
+model_vis_df = pd.DataFrame.from_dict({
+    "Index": [],
+    "Estimated Value": [],
+    "County": [],
+    "Dublin": [],
+    "Type": [],
+})
 for g, df in estimated_property_data.groupby('County'):
     dublin = df["Dublin"].iloc[0]
     data = pd.DataFrame.from_dict({
@@ -296,11 +301,32 @@ for g, df in estimated_property_data.groupby('County'):
         )(indices),
         "County": [g] * len(indices),
         "Dublin": [dublin] * len(indices),
+        "Type": "Estimated",
+    })
+    exact_data = pd.DataFrame.from_dict({
+        "Index": df['Index'],
+        "Estimated Value": df['Mean Value'],
+        "County": [g] * len(df),
+        "Dublin": [dublin] * len(df),
+        "Type": "Exact",
     })
     index_value_mapping = index_value_mapping.append(data)
-    plt.plot(data['Index'], data['Estimated Value'], label=g)
-    plt.plot(df['Index'], df['Mean Value'])
-save(plt, "property_price_linear_regression")
+    model_vis_df = model_vis_df.append(data)
+    model_vis_df = model_vis_df.append(exact_data)
+model_vis_df.rename(columns={
+    'Estimated Value':'Value',
+    "Index": 'Property Price Index',
+}, inplace=True)
+model_vis_df["Mean Property Value (€1,000)"] = model_vis_df["Value"] / 1000
+
+g = ggplot(model_vis_df, aes(
+    x="Property Price Index",
+    y="Mean Property Value (€1,000)",
+    colour="County",
+    linetype="Type"
+)) + geom_line()
+
+save(g, "property_price_linear_regression")
 estimated_property_value_data = pd.merge(
     index_value_mapping,
     property_index_data,
@@ -406,26 +432,58 @@ for g, df in proportional_population_data.groupby('County'):
     data.pop("Regional Proportion Male")
     data.pop("Regional Proportion Female")
     population_data = population_data.append(data)
+    county_years = population_data.loc[population_data.County == g, "Year"]
+    county_regional_proportion = np.poly1d(
+        np.polyfit(df.Year, df["Regional Proportion"], 1)
+    )(county_years)
+    population_data.loc[population_data.County == g, "Estimated Regional Proportion"] = county_regional_proportion
+region_population_data = population_data.groupby(["Year", "Region"]).agg(
+    regional_total=("Total Population", "sum"),
+).reset_index()
+population_data = pd.merge(
+    region_population_data,
+    population_data,
+    left_on=['Region', 'Year'],
+    right_on = ['Region', 'Year'],
+)
+population_data["Model Estimate Population"] = (
+    population_data.regional_total * population_data["Estimated Regional Proportion"]
+)
 fproportional_population_data = proportional_population_data.loc[
     proportional_population_data.Region.isin(["Midlands"])
 ].copy()
 fproportional_population_data["Regional Proportion (%)"] = fproportional_population_data["Regional Proportion"] * 100
-#proportional_population_data.Region.isin(["Dublin", "Border", "Midlands])
 g = ggplot(fproportional_population_data, aes(
     x="Year",
     y="Regional Proportion (%)",
     colour="County",
-)) + geom_line()
-save(g, "midlands-population-proportion")
-fpopulation_data = population_data.loc[
-    population_data.County.isin(["Carlow", "Kilkenny", "Clare", "Kerry", "Offaly", "Waterford", "Wexford", "Laois", "Westmeath", "Sligo"])
-].copy()
-g = ggplot(fpopulation_data, aes(
+)) + geom_line() + labs(x=" ", y="% Region")
+save(g, "midlands-population-proportion", h=4)
+model_vis_a = population_data.copy()
+model_vis_a["Population (1,000)"] = model_vis_a["Total Population"] / 1000
+model_vis_a["Type"] = "Exact"
+model_vis_b = population_data.copy()
+model_vis_b["Population (1,000)"] = model_vis_b["Model Estimate Population"] / 1000
+model_vis_b["Type"] = "Estimated"
+model_vis = model_vis_a.append(model_vis_b)
+model_vis = model_vis.loc[
+    (model_vis.Year < 2017)
+    & (model_vis.County.isin(["Cork", "Louth", "Limerick", "Galway", "Kilkenny"]))
+]
+g = ggplot(model_vis, aes(
+    x="Year",
+    y="Population (1,000)",
+    colour="County",
+    linetype="Type"
+)) + geom_line() + labs(x=" ")
+
+save(g, "population_by_county_linear_regression", h=4)
+
+g = ggplot(population_data, aes(
     x="Year",
     y="Total Population",
     colour="County",
-    group="County",
-)) + geom_line() + theme_bw()
+)) + geom_line()
 save(g, "population_by_county")
 
 
@@ -468,7 +526,33 @@ g = ggplot(estimated_property_value_data, aes(
 )) + geom_line()
 save(g, "estimated_property_value_by_county")
 
-g = ggplot(group_by_county_group(property_data, "mean"), aes(
+property_value_by_group = group_by_county_group(property_data, "mean")
+
+d = group_by_county_group(estimated_property_value_data, "mean")
+d["Estimated Mean Value (€1,000)"] = d["Estimated Value"] / 1000
+d.pop("Estimated Value")
+d = pd.merge(
+    d,
+    property_value_by_group,
+    how="left",
+    left_on=['Year', 'Group'],
+    right_on = ['Year', 'Group'],
+)
+target_data = d.loc[d["Mean Value"].notnull()]
+target_data["Type"] = "Exact"
+target_data["Value (€1,000)"] = target_data["Mean Value"] / 1000
+model_data = d.copy()
+model_data["Value (€1,000)"] = model_data["Estimated Mean Value (€1,000)"]
+model_data["Type"] = "Estimated"
+model_vis_data = target_data.append(model_data)
+g = ggplot(model_vis_data, aes(
+    x="Year",
+    y="Value (€1,000)",
+    colour="Group",
+    linetype="Type",
+)) + geom_line() + labs(x=" ")
+save(g, "estimated_property_value_by_county_group", h=5)
+g = ggplot(property_value_by_group, aes(
     x="Year",
     y="Mean Value",
     colour="Group",

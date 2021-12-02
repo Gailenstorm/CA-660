@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/Arch Linux) (preloaded format=xelatex 2021.11.25)  1 DEC 2021 21:26
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/Arch Linux) (preloaded format=xelatex 2021.11.25)  2 DEC 2021 03:40
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -97,27 +97,51 @@ LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
 ))
-(/usr/share/texmf-dist/tex/latex/algorithms/algorithmic.sty
+(/usr/share/texmf-dist/tex/latex/algorithms/algorithm.sty
 Invalid UTF-8 byte or sequence at line 11 replaced by U+FFFD.
-Package: algorithmic 2009/08/24 v0.1 Document Style `algorithmic'
+Package: algorithm 2009/08/24 v0.1 Document Style `algorithm' - floating enviro
+nment
 
+(/usr/share/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count195
+\float@exts=\toks20
+\float@box=\box49
+\@float@everytoks=\toks21
+\@floatcapt=\box50
+)
 (/usr/share/texmf-dist/tex/latex/base/ifthen.sty
 Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
 )
-(/usr/share/texmf-dist/tex/latex/graphics/keyval.sty
-Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
-\KV@toks@=\toks20
+\@float@every@algorithm=\toks22
+\c@algorithm=\count196
 )
-\c@ALC@unique=\count195
-\c@ALC@line=\count196
-\c@ALC@rem=\count197
-\c@ALC@depth=\count198
-\ALC@tlm=\skip52
-\algorithmicindent=\skip53
+(/usr/share/texmf-dist/tex/latex/algorithmicx/algpseudocode.sty
+Package: algpseudocode 
+
+(/usr/share/texmf-dist/tex/latex/algorithmicx/algorithmicx.sty
+Package: algorithmicx 2005/04/27 v1.2 Algorithmicx
+
+Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
+\c@ALG@line=\count197
+\c@ALG@rem=\count198
+\c@ALG@nested=\count199
+\ALG@tlm=\skip52
+\ALG@thistlm=\skip53
+\c@ALG@Lnr=\count266
+\c@ALG@blocknr=\count267
+\c@ALG@storecount=\count268
+\c@ALG@tmpcounter=\count269
+\ALG@tmplength=\skip54
 )
-(/usr/share/texmf-dist/tex/latex/graphics/graphicx.sty
+Document Style - pseudocode environments for use with the `algorithmicx' style
+) (/usr/share/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 2020/09/09 v1.2b Enhanced LaTeX Graphics (DPC,SPQR)
 
+(/usr/share/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks23
+)
 (/usr/share/texmf-dist/tex/latex/graphics/graphics.sty
 Package: graphics 2020/08/30 v1.4c Standard LaTeX Graphics (DPC,SPQR)
 
@@ -147,9 +171,9 @@ Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
 (/usr/share/texmf-dist/tex/generic/iftex/iftex.sty
 Package: iftex 2020/03/06 v1.0d TeX engine tests
 ))
-\Gm@cnth=\count199
-\Gm@cntv=\count266
-\c@Gm@tempcnt=\count267
+\Gm@cnth=\count270
+\Gm@cntv=\count271
+\c@Gm@tempcnt=\count272
 \Gm@bindingoffset=\dimen150
 \Gm@wd@mp=\dimen151
 \Gm@odd@mp=\dimen152
@@ -158,13 +182,13 @@ Package: iftex 2020/03/06 v1.0d TeX engine tests
 \Gm@layoutheight=\dimen155
 \Gm@layouthoffset=\dimen156
 \Gm@layoutvoffset=\dimen157
-\Gm@dimlist=\toks21
+\Gm@dimlist=\toks24
 )
 (/usr/share/texmf-dist/tex/latex/appendix/appendix.sty
 Package: appendix 2020/02/08 v1.2c extra appendix facilities
-\c@@pps=\count268
-\c@@ppsavesec=\count269
-\c@@ppsaveapp=\count270
+\c@@pps=\count273
+\c@@ppsavesec=\count274
+\c@@ppsaveapp=\count275
 )
 (/usr/share/texmf-dist/tex/latex/tools/tabularx.sty
 Package: tabularx 2020/01/15 v2.11c `tabularx' package (DPC)
@@ -172,20 +196,20 @@ Package: tabularx 2020/01/15 v2.11c `tabularx' package (DPC)
 (/usr/share/texmf-dist/tex/latex/tools/array.sty
 Package: array 2020/10/01 v2.5c Tabular extension package (FMi)
 \col@sep=\dimen158
-\ar@mcellbox=\box49
+\ar@mcellbox=\box51
 \extrarowheight=\dimen159
-\NC@list=\toks22
-\extratabsurround=\skip54
-\backup@length=\skip55
-\ar@cellbox=\box50
+\NC@list=\toks25
+\extratabsurround=\skip55
+\backup@length=\skip56
+\ar@cellbox=\box52
 )
 \TX@col@width=\dimen160
 \TX@old@table=\dimen161
 \TX@old@col=\dimen162
 \TX@target=\dimen163
 \TX@delta=\dimen164
-\TX@cols=\count271
-\TX@ftn=\toks23
+\TX@cols=\count276
+\TX@ftn=\toks26
 )
 (/usr/share/texmf-dist/tex/latex/svg/svg.sty
 Package: svg 2020/11/26 v2.02k (include SVG pictures)
@@ -307,9 +331,9 @@ Package: trimspaces 2009/09/17 v1.1 Trim spaces around a token list
 Package: shellesc 2019/11/08 v1.0c unified shell escape interface for LaTeX
 Package shellesc Info: Restricted shell escape enabled on input line 77.
 )
-\c@svg@param@lastpage=\count272
-\svg@box=\box51
-\c@svg@param@currpage=\count273
+\c@svg@param@lastpage=\count277
+\svg@box=\box53
+\c@svg@param@currpage=\count278
 )
 (/usr/share/texmf-dist/tex/latex/xcolor/xcolor.sty
 Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
@@ -338,13 +362,13 @@ PDF mode.
 ) (/usr/share/texmf-dist/tex/latex/pgf/systemlayer/pgfsys.sty
 (/usr/share/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty
 (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfutil-common.tex
-\pgfutil@everybye=\toks24
+\pgfutil@everybye=\toks27
 \pgfutil@tempdima=\dimen165
 \pgfutil@tempdimb=\dimen166
 
 (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfutil-common-lists.tex))
 (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfutil-latex.def
-\pgfutil@abb=\box52
+\pgfutil@abb=\box54
 )
 (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfrcs.code.tex
 (/usr/share/texmf-dist/tex/generic/pgf/pgf.revision.tex)
@@ -354,11 +378,11 @@ Package: pgfrcs 2020/12/27 v3.1.8b (3.1.8b)
 Package: pgfsys 2020/12/27 v3.1.8b (3.1.8b)
 
 (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex
-\pgfkeys@pathtoks=\toks25
-\pgfkeys@temptoks=\toks26
+\pgfkeys@pathtoks=\toks28
+\pgfkeys@temptoks=\toks29
 
 (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfkeysfiltered.code.tex
-\pgfkeys@tmptoks=\toks27
+\pgfkeys@tmptoks=\toks30
 ))
 \pgf@x=\dimen167
 \pgf@y=\dimen168
@@ -372,14 +396,14 @@ Package: pgfsys 2020/12/27 v3.1.8b (3.1.8b)
 \pgf@yd=\dimen176
 \w@pgf@writea=\write3
 \r@pgf@reada=\read2
-\c@pgf@counta=\count274
-\c@pgf@countb=\count275
-\c@pgf@countc=\count276
-\c@pgf@countd=\count277
-\t@pgf@toka=\toks28
-\t@pgf@tokb=\toks29
-\t@pgf@tokc=\toks30
-\pgf@sys@id@count=\count278
+\c@pgf@counta=\count279
+\c@pgf@countb=\count280
+\c@pgf@countc=\count281
+\c@pgf@countd=\count282
+\t@pgf@toka=\toks31
+\t@pgf@tokb=\toks32
+\t@pgf@tokc=\toks33
+\pgf@sys@id@count=\count283
 
 (/usr/share/texmf-dist/tex/generic/pgf/systemlayer/pgf.cfg
 File: pgf.cfg 2020/12/27 v3.1.8b (3.1.8b)
@@ -395,12 +419,12 @@ File: pgfsys-dvipdfmx.def 2020/12/27 v3.1.8b (3.1.8b)
 (/usr/share/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-common-pdf.def
 File: pgfsys-common-pdf.def 2020/12/27 v3.1.8b (3.1.8b)
 )
-\pgfsys@objnum=\count279
+\pgfsys@objnum=\count284
 )))
 (/usr/share/texmf-dist/tex/generic/pgf/systemlayer/pgfsyssoftpath.code.tex
 File: pgfsyssoftpath.code.tex 2020/12/27 v3.1.8b (3.1.8b)
-\pgfsyssoftpath@smallbuffer@items=\count280
-\pgfsyssoftpath@bigbuffer@items=\count281
+\pgfsyssoftpath@smallbuffer@items=\count285
+\pgfsyssoftpath@bigbuffer@items=\count286
 )
 (/usr/share/texmf-dist/tex/generic/pgf/systemlayer/pgfsysprotocol.code.tex
 File: pgfsysprotocol.code.tex 2020/12/27 v3.1.8b (3.1.8b)
@@ -409,39 +433,42 @@ File: pgfsysprotocol.code.tex 2020/12/27 v3.1.8b (3.1.8b)
 File: l3backend-xetex.def 2021-03-18 L3 backend support: XeTeX
 
 (|extractbb --version)
-\c__kernel_sys_dvipdfmx_version_int=\count282
-\l__color_backend_stack_int=\count283
-\g__color_backend_stack_int=\count284
-\g__graphics_track_int=\count285
-\l__pdf_internal_box=\box53
-\g__pdf_backend_object_int=\count286
-\g__pdf_backend_annotation_int=\count287
-\g__pdf_backend_link_int=\count288
-) (./report.aux)
+\c__kernel_sys_dvipdfmx_version_int=\count287
+\l__color_backend_stack_int=\count288
+\g__color_backend_stack_int=\count289
+\g__graphics_track_int=\count290
+\l__pdf_internal_box=\box55
+\g__pdf_backend_object_int=\count291
+\g__pdf_backend_annotation_int=\count292
+\g__pdf_backend_link_int=\count293
+) (./report.aux
+
+LaTeX Warning: Label `tab:sources' multiply defined.
+
+)
 \openout1 = `report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 22.
-LaTeX Font Info:    ... okay on input line 22.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 22.
-LaTeX Font Info:    ... okay on input line 22.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 22.
-LaTeX Font Info:    ... okay on input line 22.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 22.
-LaTeX Font Info:    ... okay on input line 22.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 22.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 27.
 LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 2
-2.
-
-(/usr/share/texmf-dist/tex/latex/base/ts1cmr.fd
+7.
+ (/usr/share/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 22.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 22.
-LaTeX Font Info:    ... okay on input line 22.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 22.
-LaTeX Font Info:    ... okay on input line 22.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 22.
-LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: xetex
@@ -477,48 +504,43 @@ LaTeX Font Info:    ... okay on input line 22.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Font Info:    Trying to load font information for U+msa on input line 24.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 29.
 
 (/usr/share/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 24.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 29.
 
 
 (/usr/share/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-Underfull \hbox (badness 4391) in paragraph at lines 26--36
-\TU/lmr/m/n/10 missing population projections, and missing historical
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 26--36
+Underfull \hbox (badness 10000) in paragraph at lines 31--41
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 106--106
+Underfull \hbox (badness 10000) in paragraph at lines 111--111
 []|\TU/lmr/m/n/10 County,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 106--106
+Underfull \hbox (badness 10000) in paragraph at lines 111--111
 []|\TU/lmr/m/n/10 Eircode
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 106--106
+Underfull \hbox (badness 10000) in paragraph at lines 111--111
 []|\TU/lmr/m/n/10 Region,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 106--106
+Underfull \hbox (badness 10000) in paragraph at lines 111--111
 []|\TU/lmr/m/n/10 Region,
  []
 
 
-Overfull \hbox (5.0pt too wide) in paragraph at lines 106--106
+Overfull \hbox (5.0pt too wide) in paragraph at lines 111--111
  [][] 
  []
 
@@ -529,42 +551,80 @@ Overfull \hbox (5.0pt too wide) in paragraph at lines 106--106
 File: media/pdf/midlands-population-proportion.svg.pdf Graphic file (type pdf)
 <use media/pdf/midlands-population-proportion.svg.pdf>
 
-Overfull \hbox (32.1029pt too wide) in paragraph at lines 181--182
+Overfull \hbox (32.1029pt too wide) in paragraph at lines 193--194
  [][] 
  []
 
-[2] (./report.bbl [3])
-Overfull \hbox (5.0pt too wide) in paragraph at lines 288--289
+[2]
+File: media/pdf/population_by_county_linear_regression.svg.pdf Graphic file (ty
+pe pdf)
+<use media/pdf/population_by_county_linear_regression.svg.pdf>
+File: media/pdf/property_price_linear_regression.svg.pdf Graphic file (type pdf
+)
+<use media/pdf/property_price_linear_regression.svg.pdf>
+
+Overfull \hbox (5.0pt too wide) in paragraph at lines 253--254
+ [][] 
+ []
+
+
+Overfull \hbox (8.01758pt too wide) in alignment at lines 305--305
+[][][] 
+ []
+
+
+Overfull \hbox (5.0pt too wide) in paragraph at lines 305--305
+[][] 
+ []
+
+File: media/clustered_ireland_map.png Graphic file (type bmp)
+<media/clustered_ireland_map.png>
+File: media/pdf/estimated_property_value_by_county_group.svg.pdf Graphic file (
+type pdf)
+<use media/pdf/estimated_property_value_by_county_group.svg.pdf>
+
+Overfull \hbox (7.71277pt too wide) in paragraph at lines 319--320
+ [][] 
+ []
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[3] (./report.bbl [4])
+Overfull \hbox (5.0pt too wide) in paragraph at lines 430--431
 []  
  []
 
 
-Overfull \hbox (5.0pt too wide) in paragraph at lines 300--301
+Overfull \hbox (5.0pt too wide) in paragraph at lines 442--443
 []  
  []
 
 
-Overfull \hbox (5.0pt too wide) in paragraph at lines 314--316
-[] 
+Underfull \vbox (badness 5939) has occurred while \output is active []
+
+
+Overfull \hbox (5.0pt too wide) in paragraph at lines 456--457
+[]  
  []
 
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [4]
+[5]
 
 LaTeX3 Info: Redefining command \BeforeClosingMainAux with sig. 'm' on line
-(LaTeX3)     316.
+(LaTeX3)     457.
 
+ (./report.aux)
 
-(./report.aux) ) 
+LaTeX Warning: There were multiply-defined labels.
+
+ ) 
 Here is how much of TeX's memory you used:
- 5712 strings out of 476919
- 94735 string characters out of 5827673
- 447266 words of memory out of 5000000
- 25560 multiletter control sequences out of 15000+600000
- 409902 words of font info for 69 fonts, out of 8000000 for 9000
+ 6215 strings out of 476919
+ 103084 string characters out of 5827673
+ 454366 words of memory out of 5000000
+ 26048 multiletter control sequences out of 15000+600000
+ 409886 words of font info for 67 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  97i,13n,102p,702b,297s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on report.pdf (4 pages).
+Output written on report.pdf (5 pages).
